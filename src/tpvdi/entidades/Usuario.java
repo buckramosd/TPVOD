@@ -76,6 +76,4 @@ public class Usuario {
         return "Usuario{" + "nombreUsuario=" + nombreUsuario + ", contrase\u00f1a=" + contraseña + ", rol=" + rol + ", nombre=" + nombre + ", apellidos=" + apellidos + '}';
     }
     
-    
-    //Esto es una prueba 
 }

@@ -10,4 +10,13 @@ package tpvdi.entidades;
  */
 public class Producto {
     
+    private int idProducto;
+    
+    private String nombre;
+    
+    private Double pvp;
+    
+    private int stock;
+    
+    private Long imagen;
 }
