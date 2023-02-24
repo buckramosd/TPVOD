@@ -4,6 +4,8 @@
  */
 package tpvdi.entidades;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author damm
@@ -18,5 +20,5 @@ public class Producto {
     
     private int stock;
     
-    private Long imagen;
+    private ImageIcon imagen;
 }
