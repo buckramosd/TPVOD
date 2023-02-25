@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 17-02-2023 a las 14:31:12
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 25-02-2023 a las 20:07:36
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -32,7 +32,7 @@ CREATE TABLE `productos` (
   `nombre` varchar(30) NOT NULL,
   `pvp` float NOT NULL,
   `stock` int(11) NOT NULL,
-  `imagen` mediumblob NOT NULL
+  `imagen` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
