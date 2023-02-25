@@ -25,7 +25,7 @@ public class GestionBD {
         this.PUERTO = PUERTO;
     }
     
-    private boolean conectar() {
+    protected boolean conectar() {
         boolean resultado = true;
         try {
             // Driver
@@ -42,7 +42,7 @@ public class GestionBD {
         return resultado;
     }
 
-    private boolean desconectar() {
+    protected boolean desconectar() {
         boolean resultado = true;
         try {
             conexion.close();
