@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/damm/NetBeansProjects/TPVDI/src/tpvdi/entidades/Producto.java</file>
-            <file>file:/Users/damm/NetBeansProjects/TPVDI/src/BD/comentarios</file>
-            <file>file:/Users/damm/NetBeansProjects/TPVDI/src/tpvdi/entidades/Usuario.java</file>
-            <file>file:/Users/damm/NetBeansProjects/TPVDI/src/tpvdi/entidades/Venta.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/entidades/Venta.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/GestionProductoBD.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/entidades/Usuarios.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/GestionBD.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/entidades/Producto.java</file>
         </group>
     </open-files>
 </project-private>
