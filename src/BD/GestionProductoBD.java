@@ -35,6 +35,11 @@ public class GestionProductoBD {
      * Comentar métodos
      */
     
+    /**
+     * Método para insertar un nuevo producto en la base de datos sin la foto.
+     * @param prod
+     * @return 
+     */
     public boolean insertarProducto(Producto prod) {
         boolean resultado = false;
         try {
@@ -52,6 +57,11 @@ public class GestionProductoBD {
         return resultado;
     }
 
+    /**
+     * Método para updatear los productos con sus imágenes representativas.
+     * @param idProducto
+     * @param f 
+     */
     public void updatearFotoProducto(int idProducto, File f) {
         PreparedStatement pstmt;
         String sql;
@@ -70,7 +80,12 @@ public class GestionProductoBD {
             System.err.println("Error excepcion" + ex.toString());
         }
     }
-
+    
+    /**
+     * Método para buscar un producto en la base de datos.
+     * @param idProducto
+     * @return producto.
+     */
     public Producto buscarProducto(int idProducto) {
         Producto productoBuscado = null;
         ResultSet rs;
@@ -101,7 +116,14 @@ public class GestionProductoBD {
 
         return productoBuscado;
     }
-
+    
+    /**
+     * Método para cambiar el stock de un producto restándole cierta cantidad.
+     * Si la cantidad a restar es mayor que el stock, establecemos el stock a 0.
+     * @param cantidad a reducir el stock
+     * @param idProducto
+     * @return 
+     */
     public boolean modificarStockProducto(int cantidad, int idProducto) {
         boolean resultado = false;
         Producto productoModificar = buscarProducto(idProducto);
@@ -125,10 +147,13 @@ public class GestionProductoBD {
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Actualizar departamento)" + ex.getMessage());
         }
-
         return resultado;
     }
     
+    /**
+     * Método que devuelve una lista de tipo Producto con todos los productos de la base de datos.
+     * @return 
+     */
     public Productos listarProductos(){
         Productos listado = new Productos();
         Producto productoA = null;
@@ -151,7 +176,12 @@ public class GestionProductoBD {
         }
         return listado;
     }
-
+    
+    /**
+     * Método que permite obtener el ImageIcon del producto según su id.
+     * @param idProducto
+     * @return 
+     */
     public ImageIcon getFotoProducto(int idProducto) {
         ImageIcon imgProducto = null;
         PreparedStatement pstmt;
@@ -176,7 +206,14 @@ public class GestionProductoBD {
         }
         return imgProducto;
     }
-
+    
+    /**
+     * Método para modificar el tamaño de la imagen (clase).
+     * @param f
+     * @param newW
+     * @param newH
+     * @return 
+     */
     public static BufferedImage resizeToBufferedImage(File f, int newW, int newH) {
         BufferedImage bufferedImage = null;
 
@@ -195,7 +232,14 @@ public class GestionProductoBD {
 
         return bufim;
     }
-
+    
+    /**
+     * Método dado en clase para modificar el tamaño del archivo que contiene la imagen.
+     * @param f
+     * @param newW
+     * @param newH
+     * @return 
+     */
     public InputStream resizeFromFile(File f, int newW, int newH) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         RenderedImage bufferedImage = resizeToBufferedImage(f, newW, newH);

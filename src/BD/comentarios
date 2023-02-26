@@ -4,3 +4,6 @@ GestionUsuario -> Añadir usuario, modificar roles, identificar usuario
 
 GestionVentas -> Añadir venta, modificar venta, 
 
+Hacer un metodo en la interfaz que nos permita calcular la diferencia entre lo que piden 
+y el stock que tenemos, por si se excediese el stock mostrar que hay tantas unidades que no se
+han podido pedir 
