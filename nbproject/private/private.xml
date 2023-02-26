@@ -5,11 +5,14 @@
         <group>
             <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/GestionUsuarioBD.java</file>
             <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/entidades/Ventas.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/GUI/Login.java</file>
             <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/comentarios</file>
             <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/entidades/Venta.java</file>
             <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/GestionProductoBD.java</file>
-            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/entidades/Usuario.java</file>
             <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/GestionVentasBD.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/BD/GestionBD.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/GUI/TPVGUI.java</file>
+            <file>file:/C:/Users/Oscar/Desktop/TPVOD/src/tpvdi/TPVDI.java</file>
         </group>
     </open-files>
 </project-private>

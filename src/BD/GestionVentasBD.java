@@ -1,6 +1,8 @@
 
 package BD;
 
+import entidades.Producto;
+import entidades.Usuario;
 import entidades.Venta;
 import entidades.Ventas;
 import java.sql.Connection;
@@ -69,20 +71,20 @@ public class GestionVentasBD {
     /**
      * Método que devuelve una lista de tipo venta con todas las ventas de la base de datos.
      * @return 
-    
+     */
     public Ventas listarTodasVentas(){
         Ventas listado = new Ventas();
-        Venta ventaA = null;
         ResultSet rs;
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("SELECT * FROM ventas");
+            String sql = String.format("SELECT ventas.* FROM ((ventas "
+                    + "INNER JOIN productos ON ventas.idProducto = productos.idProducto)"
+                    + "INNER JOIN usuarios ON ventas.username = usuarios.username)");
             sentencia.execute(sql);
             rs = sentencia.getResultSet();
             while(rs.next()){
-                ventaA = buscarVenta(rs.getString(1));
-                listado.addVenta(ventaA);
+                listado.addVenta(new Venta());
             }
             rs.close();
             sentencia.close();
@@ -97,23 +99,26 @@ public class GestionVentasBD {
      * Método que devuelve una lista de tipo venta con todas las ventas con cierto codVenta de la base de datos.
      * @param codVenta
      * @return lista
-    
+     */
     public Ventas listarCiertasVentas(int codVenta){
         Ventas listado = new Ventas();
         ResultSet rs;
         conectar();
         try {
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("SELECT * FROM ventas INNER JOIN departamentos ON departamentos.idDepartamento = empleados.codDepartamento");
+            String sql = String.format("SELECT ventas.* FROM ((ventas "
+                    + "INNER JOIN productos ON ventas.idProducto = productos.idProducto)"
+                    + "INNER JOIN usuarios ON ventas.username = usuarios.username)"
+                    + "WHERE codVenta='%s'", codVenta);
             sentencia.execute(sql);
             rs = sentencia.getResultSet();
             while(rs.next()){
-                listado.addEmpleado(new Empleado(rs.getInt(1), 
-                                                 rs.getString(2), 
-                                                 rs.getString(3),
-                                                 new Departamento(rs.getInt(4), rs.getString(8)),
-                                                 rs.getFloat(5),
-                                                 rs.getString(6)));
+                listado.addVenta(new Venta(rs.getInt(2), 
+                                           rs.getInt(3), 
+                                           rs.getInt(4),
+                                           new Producto(rs.getInt(5),rs.getString(6), rs.getDouble(7),rs.getInt(8)),
+                                           new Usuario(rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13)
+                                           )));
             }
             rs.close();
             sentencia.close();
@@ -124,35 +129,7 @@ public class GestionVentasBD {
         
         return listado;
     }
-    
-    private Venta buscarVenta(int codVenta){
-        Venta ventaBuscada = null;
-        ResultSet rs;
-        try {
-            conectar();
-            Statement sentencia = conexion.createStatement();
-            String sql = String.format("SELECT * FROM ventas WHERE codVenta ='%s'",
-                    codVenta);
-            System.out.println("Consulta SQL: " + sql);
-            sentencia.execute(sql);
-            rs = sentencia.getResultSet();
-            while (rs.next()) {
-                ventaBuscada = new Venta(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        
-                );
-                return ventaBuscada;
-            }
-            sentencia.close();
-            desconectar();
-        } catch (SQLException ex) {
-            System.out.println("Error en conexión(Buscar usuario)" + ex.getMessage());
-        }
-        return ventaBuscada;
-    }
-     */
+     
     private boolean conectar() {
         boolean resultado = true;
         try {
