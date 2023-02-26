@@ -22,7 +22,7 @@ import javax.swing.ImageIcon;
 
 public class GestionProductoBD {
 
-    private GestionBD bd = new GestionBD("localhost", "root", "", "empresa", 3306);
+    private GestionBD bd = new GestionBD("localhost", "root", "", "tpv", 3306);
     private Connection conexion;
 
     /**

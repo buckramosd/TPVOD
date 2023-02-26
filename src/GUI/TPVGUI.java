@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import entidades.Usuario;
+
 /**
  *
  * @author damm
@@ -12,9 +14,14 @@ public class TPVGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form TPVGUI
+     * @param usuario
      */
-    public TPVGUI() {
+    public TPVGUI(Usuario usuario) {
         initComponents();
+        //Si el usuario no es admin bloquea la ventana "Administración"
+        if(usuario.getRol().equals("vendedor")){
+            this.jTabbedPane1.setEnabledAt(1, false);
+        }
     }
 
     /**
@@ -26,17 +33,47 @@ public class TPVGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        TabTPV = new javax.swing.JPanel();
+        TabAdmin = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout TabTPVLayout = new javax.swing.GroupLayout(TabTPV);
+        TabTPV.setLayout(TabTPVLayout);
+        TabTPVLayout.setHorizontalGroup(
+            TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1010, Short.MAX_VALUE)
+        );
+        TabTPVLayout.setVerticalGroup(
+            TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 765, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("TPV", TabTPV);
+
+        javax.swing.GroupLayout TabAdminLayout = new javax.swing.GroupLayout(TabAdmin);
+        TabAdmin.setLayout(TabAdminLayout);
+        TabAdminLayout.setHorizontalGroup(
+            TabAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1010, Short.MAX_VALUE)
+        );
+        TabAdminLayout.setVerticalGroup(
+            TabAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 765, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Administración", TabAdmin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1010, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 796, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -72,11 +109,14 @@ public class TPVGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TPVGUI().setVisible(true);
+                new TPVGUI(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel TabAdmin;
+    private javax.swing.JPanel TabTPV;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

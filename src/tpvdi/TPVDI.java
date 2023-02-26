@@ -4,6 +4,10 @@
  */
 package tpvdi;
 
+import BD.GestionBD;
+import BD.GestionUsuarioBD;
+import entidades.Usuario;
+
 /**
  *
  * @author damm
@@ -14,7 +18,10 @@ public class TPVDI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        GestionBD conexion = new GestionBD("localhost", "root", "", "tpv", 3306);
+        GestionUsuarioBD conUser = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
+        Usuario user = new Usuario("prueba", "prueba", "admin", "prueba", "prueba");
+        conUser.insertarUsuario(user);
     }
     
 }

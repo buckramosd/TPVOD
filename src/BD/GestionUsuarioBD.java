@@ -4,6 +4,7 @@ package BD;
 import entidades.Usuario;
 import entidades.Usuarios;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,8 +12,26 @@ import java.sql.Statement;
 
 public class GestionUsuarioBD {
     
-    private GestionBD bd = new GestionBD("localhost", "root", "", "empresa", 3306);
+    private final String HOST;
+    //Driver
+    //Usuario
+    private final String USUARIO;
+    //Contraseña
+    private final String PASSWORD;
+    //Nombre BD
+    private final String BD;
+    //Puerto
+    private final int PUERTO;
+    //Conexión
     private Connection conexion;
+
+    public GestionUsuarioBD(String HOST, String USUARIO, String PASSWORD, String BD, int PUERTO) {
+        this.HOST = HOST;
+        this.USUARIO = USUARIO;
+        this.PASSWORD = PASSWORD;
+        this.BD = BD;
+        this.PUERTO = PUERTO;
+    }
     
     /**
      * Método para insertar un nuevo usuario en la base de datos.
@@ -22,14 +41,14 @@ public class GestionUsuarioBD {
     public boolean insertarUsuario(Usuario user){
         boolean resultado = false;       
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("INSERT INTO usuarios(username, password, rol, nombre, apellidos) VALUES ('%s', '%s', '%s','%s', '%s')",
                     user.getNombreUsuario(), user.getContraseña(), user.getRol(), user.getNombre(),user.getApellidos());
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Insertar empleado)" + ex.getMessage());
         }
@@ -45,7 +64,7 @@ public class GestionUsuarioBD {
         Usuario usuarioBuscado = null;
         ResultSet rs;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("SELECT * FROM usuarios WHERE username ='%s'",
                     nombreUsuario);
@@ -63,7 +82,7 @@ public class GestionUsuarioBD {
                 return usuarioBuscado;
             }
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Buscar departamento)" + ex.getMessage());
         }
@@ -80,14 +99,14 @@ public class GestionUsuarioBD {
         boolean resultado = false;
         ResultSet rs;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("UPDATE usuarios SET rol='%s' WHERE username =%s",
                     rol, nombreUsuario);
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Actualizar departamento)" + ex.getMessage());
         }
@@ -103,7 +122,7 @@ public class GestionUsuarioBD {
         Usuario usuarioA = null;
         ResultSet rs;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("SELECT * FROM usuarios");
             sentencia.execute(sql);
@@ -114,10 +133,38 @@ public class GestionUsuarioBD {
             }
             rs.close();
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch(SQLException ex){
             System.out.println("Error conexión" + ex.getMessage());
         }
         return listado;
+    }
+    
+    private boolean conectar() {
+        boolean resultado = true;
+        try {
+            //Indicamos el driver a utilizar
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Inicializar la cadena de conexión
+            conexion = DriverManager.getConnection("jdbc:mysql://" + HOST + "/" + BD + "?serverTimezone=UTC", USUARIO, PASSWORD);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error al cargar el driver MySQL " + ex.getMessage());
+            resultado = false;
+        } catch (SQLException ex) {
+            System.out.println("Error de conexión " + ex.getMessage());
+            resultado = false;
+        }
+        return resultado;
+    }
+
+    private boolean desconectar() {
+        boolean resultado = true;
+        try {
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al desconectar " + ex.getMessage());
+            resultado = false;
+        }
+        return resultado;
     }
 }
