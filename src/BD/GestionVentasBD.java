@@ -2,8 +2,10 @@
 package BD;
 
 import entidades.Venta;
+import entidades.Ventas;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -63,7 +65,94 @@ public class GestionVentasBD {
         }
         return resultado;
     }
+    /*
+    /**
+     * Método que devuelve una lista de tipo venta con todas las ventas de la base de datos.
+     * @return 
     
+    public Ventas listarTodasVentas(){
+        Ventas listado = new Ventas();
+        Venta ventaA = null;
+        ResultSet rs;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("SELECT * FROM ventas");
+            sentencia.execute(sql);
+            rs = sentencia.getResultSet();
+            while(rs.next()){
+                ventaA = buscarVenta(rs.getString(1));
+                listado.addVenta(ventaA);
+            }
+            rs.close();
+            sentencia.close();
+            desconectar();
+        } catch(SQLException ex){
+            System.out.println("Error conexión" + ex.getMessage());
+        }
+        return listado;
+    }
+    
+    /**
+     * Método que devuelve una lista de tipo venta con todas las ventas con cierto codVenta de la base de datos.
+     * @param codVenta
+     * @return lista
+    
+    public Ventas listarCiertasVentas(int codVenta){
+        Ventas listado = new Ventas();
+        ResultSet rs;
+        conectar();
+        try {
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("SELECT * FROM ventas INNER JOIN departamentos ON departamentos.idDepartamento = empleados.codDepartamento");
+            sentencia.execute(sql);
+            rs = sentencia.getResultSet();
+            while(rs.next()){
+                listado.addEmpleado(new Empleado(rs.getInt(1), 
+                                                 rs.getString(2), 
+                                                 rs.getString(3),
+                                                 new Departamento(rs.getInt(4), rs.getString(8)),
+                                                 rs.getFloat(5),
+                                                 rs.getString(6)));
+            }
+            rs.close();
+            sentencia.close();
+            desconectar();
+        } catch(SQLException ex){
+            System.out.println("Error conexión" + ex.getMessage());
+        }
+        
+        return listado;
+    }
+    
+    private Venta buscarVenta(int codVenta){
+        Venta ventaBuscada = null;
+        ResultSet rs;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("SELECT * FROM ventas WHERE codVenta ='%s'",
+                    codVenta);
+            System.out.println("Consulta SQL: " + sql);
+            sentencia.execute(sql);
+            rs = sentencia.getResultSet();
+            while (rs.next()) {
+                ventaBuscada = new Venta(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        
+                );
+                return ventaBuscada;
+            }
+            sentencia.close();
+            desconectar();
+        } catch (SQLException ex) {
+            System.out.println("Error en conexión(Buscar usuario)" + ex.getMessage());
+        }
+        return ventaBuscada;
+    }
+     */
     private boolean conectar() {
         boolean resultado = true;
         try {
