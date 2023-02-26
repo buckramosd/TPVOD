@@ -41,7 +41,7 @@ public class GestionVentasBD {
             sentencia.close();
             desconectar();
         } catch (SQLException ex) {
-            System.out.println("Error en conexión(Insertar empleado)" + ex.getMessage());
+            System.out.println("Error en conexión(Insertar venta)" + ex.getMessage());
         }
         return resultado;
     }
