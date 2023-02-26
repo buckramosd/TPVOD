@@ -31,8 +31,10 @@ public class GestionProductoBD {
      * buscar foto          DONE 
      * buscar producto      DONE
      * modificar stock      DONE
-     * listar productos     
+     * listar productos     DONE
+     * Comentar métodos
      */
+    
     public boolean insertarProducto(Producto prod) {
         boolean resultado = false;
         try {
@@ -47,7 +49,6 @@ public class GestionProductoBD {
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Insertar empleado)" + ex.getMessage());
         }
-
         return resultado;
     }
 
@@ -148,7 +149,6 @@ public class GestionProductoBD {
         } catch(SQLException ex){
             System.out.println("Error conexión" + ex.getMessage());
         }
-        
         return listado;
     }
 
