@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,18 +23,20 @@ import javax.swing.ImageIcon;
 
 public class GestionProductoBD {
 
-    private GestionBD bd = new GestionBD("localhost", "root", "", "tpv", 3306);
+    private final String HOST;
+    private final String USUARIO;
+    private final String PASSWORD;
+    private final String BD;
+    private final int PUERTO;
     private Connection conexion;
 
-    /**
-     * insertar producto    DONE
-     * updatear fotos       DONE 
-     * buscar foto          DONE 
-     * buscar producto      DONE
-     * modificar stock      DONE
-     * listar productos     DONE
-     * Comentar métodos
-     */
+    public GestionProductoBD(String HOST, String USUARIO, String PASSWORD, String BD, int PUERTO) {
+        this.HOST = HOST;
+        this.USUARIO = USUARIO;
+        this.PASSWORD = PASSWORD;
+        this.BD = BD;
+        this.PUERTO = PUERTO;
+    }
     
     /**
      * Método para insertar un nuevo producto en la base de datos sin la foto.
@@ -43,14 +46,14 @@ public class GestionProductoBD {
     public boolean insertarProducto(Producto prod) {
         boolean resultado = false;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("INSERT INTO productos(nombre, pvp, stock) VALUES ('%s', '%s', '%s')",
                     prod.getNombre(), prod.getPvp(), prod.getStock());
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Insertar empleado)" + ex.getMessage());
         }
@@ -67,7 +70,7 @@ public class GestionProductoBD {
         String sql;
 
         try {
-            bd.conectar();
+            conectar();
             sql = "UPDATE productos SET imagen = ? WHERE idProducto = ?";
             pstmt = conexion.prepareStatement(sql);
             // redimensionamos la imagen a 100X100
@@ -75,7 +78,7 @@ public class GestionProductoBD {
             pstmt.setInt(2, idProducto);
             pstmt.executeUpdate();
 
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.err.println("Error excepcion" + ex.toString());
         }
@@ -90,7 +93,7 @@ public class GestionProductoBD {
         Producto productoBuscado = null;
         ResultSet rs;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("SELECT * FROM productos WHERE idProducto ='%s'",
                     idProducto);
@@ -109,7 +112,7 @@ public class GestionProductoBD {
                 return productoBuscado;
             }
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Buscar departamento)" + ex.getMessage());
         }
@@ -136,14 +139,14 @@ public class GestionProductoBD {
         productoModificar.setStock(stockActual);
         ResultSet rs;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("UPDATE productos SET stock='%s' WHERE idProducto =%s",
                     productoModificar.getStock(), idProducto);
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch (SQLException ex) {
             System.out.println("Error en conexión(Actualizar departamento)" + ex.getMessage());
         }
@@ -159,7 +162,7 @@ public class GestionProductoBD {
         Producto productoA = null;
         ResultSet rs;
         try {
-            bd.conectar();
+            conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("SELECT * FROM productos");
             sentencia.execute(sql);
@@ -170,7 +173,7 @@ public class GestionProductoBD {
             }
             rs.close();
             sentencia.close();
-            bd.desconectar();
+            desconectar();
         } catch(SQLException ex){
             System.out.println("Error conexión" + ex.getMessage());
         }
@@ -189,7 +192,7 @@ public class GestionProductoBD {
         byte[] blobAsBytes;
         String sql;
         try {
-            bd.conectar();
+            conectar();
             sql = "SELECT imagen FROM productos WHERE idProducto = " + idProducto + " ";
             pstmt = conexion.prepareStatement(sql);
 
@@ -249,5 +252,33 @@ public class GestionProductoBD {
             System.err.println("Error: " + ex);
         }
         return new ByteArrayInputStream(baos.toByteArray());
+    }
+    
+    private boolean conectar() {
+        boolean resultado = true;
+        try {
+            //Indicamos el driver a utilizar
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Inicializar la cadena de conexión
+            conexion = DriverManager.getConnection("jdbc:mysql://" + HOST + "/" + BD + "?serverTimezone=UTC", USUARIO, PASSWORD);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error al cargar el driver MySQL " + ex.getMessage());
+            resultado = false;
+        } catch (SQLException ex) {
+            System.out.println("Error de conexión " + ex.getMessage());
+            resultado = false;
+        }
+        return resultado;
+    }
+
+    private boolean desconectar() {
+        boolean resultado = true;
+        try {
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al desconectar " + ex.getMessage());
+            resultado = false;
+        }
+        return resultado;
     }
 }
