@@ -98,7 +98,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        listProductosTPV.setModel(this.modeloJListProductos);
+        listProductosTPV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(listProductosTPV);
 
         btn7.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
