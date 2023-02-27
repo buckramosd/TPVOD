@@ -50,7 +50,7 @@ public class GestionUsuarioBD {
             sentencia.close();
             desconectar();
         } catch (SQLException ex) {
-            System.out.println("Error en conexión(Insertar empleado)" + ex.getMessage());
+            System.out.println("Error en conexión(Insertar usuario)" + ex.getMessage());
         }
         return resultado;
     }
@@ -84,7 +84,7 @@ public class GestionUsuarioBD {
             sentencia.close();
             desconectar();
         } catch (SQLException ex) {
-            System.out.println("Error en conexión(Buscar departamento)" + ex.getMessage());
+            System.out.println("Error en conexión(Buscar usuario)" + ex.getMessage());
         }
         return usuarioBuscado;
     }
@@ -108,7 +108,7 @@ public class GestionUsuarioBD {
             sentencia.close();
             desconectar();
         } catch (SQLException ex) {
-            System.out.println("Error en conexión(Actualizar departamento)" + ex.getMessage());
+            System.out.println("Error en conexión(Actualizar rol usuario)" + ex.getMessage());
         }
         return resultado;
     }

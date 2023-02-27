@@ -25,6 +25,13 @@ public class Producto {
     public Producto() {
     }
 
+    public Producto(int idProducto, String nombre, Double pvp, int stock) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.pvp = pvp;
+        this.stock = stock;
+    }
+
     public Producto(int idProducto, String nombre, Double pvp, int stock, ImageIcon imagen) {
         this.idProducto = idProducto;
         this.nombre = nombre;
