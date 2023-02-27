@@ -8,21 +8,27 @@ import BD.GestionProductoBD;
 import entidades.Producto;
 import entidades.Productos;
 import entidades.Usuario;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  *
  * @author damm
  */
 public class TPVGUI extends javax.swing.JFrame {
-    GestionProductoBD productosBD;
+    GestionProductoBD conexionProductos;
     /**
      * Creates new form TPVGUI
      * @param usuario
      */
     public TPVGUI(Usuario usuario) {
+        conexionProductos = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
         initComponents();
         cargarProductos();
         //Si el usuario no es admin bloquea la ventana "Administración"
@@ -59,6 +65,7 @@ public class TPVGUI extends javax.swing.JFrame {
         btn0 = new javax.swing.JButton();
         btnC = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPaneProductos = new javax.swing.JScrollPane();
         TabAdmin = new javax.swing.JPanel();
 
@@ -181,6 +188,12 @@ public class TPVGUI extends javax.swing.JFrame {
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 300));
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
+
+        jScrollPaneProductos.setPreferredSize(new java.awt.Dimension(300, 300));
+        jPanel2.add(jScrollPaneProductos);
+
         javax.swing.GroupLayout TabTPVLayout = new javax.swing.GroupLayout(TabTPV);
         TabTPV.setLayout(TabTPVLayout);
         TabTPVLayout.setHorizontalGroup(
@@ -191,7 +204,7 @@ public class TPVGUI extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TabTPVLayout.setVerticalGroup(
@@ -199,13 +212,12 @@ public class TPVGUI extends javax.swing.JFrame {
             .addGroup(TabTPVLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneProductos)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(TabTPVLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(24, 24, 24))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("TPV", TabTPV);
@@ -214,11 +226,11 @@ public class TPVGUI extends javax.swing.JFrame {
         TabAdmin.setLayout(TabAdminLayout);
         TabAdminLayout.setHorizontalGroup(
             TabAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1046, Short.MAX_VALUE)
+            .addGap(0, 883, Short.MAX_VALUE)
         );
         TabAdminLayout.setVerticalGroup(
             TabAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addGap(0, 814, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Administración", TabAdmin);
@@ -227,7 +239,7 @@ public class TPVGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,9 +250,9 @@ public class TPVGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void cargarProductos() {
-        Productos productos = productosBD.listarProductos();
-        int x = 0;
-        int y = 0;
+        Productos productos = conexionProductos.listarProductos();
+        int x = 10;
+        int y = 10;
         int total = 115;
         
         this.jScrollPaneProductos.removeAll();
@@ -257,7 +269,26 @@ public class TPVGUI extends javax.swing.JFrame {
             boton.setVisible(true);
             boton.setIcon(producto.getImagen());
             this.jScrollPaneProductos.add(boton);
+            JLabel nombre = new JLabel(producto.getNombre());
+            nombre.setText(producto.getNombre());
+            nombre.setBounds(x, y + 100, 100, 15);
+            nombre.setVisible(true);
+            nombre.setHorizontalAlignment(SwingConstants.CENTER);
+            nombre.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                }
+            });
+            this.jScrollPaneProductos.add(nombre);
+            if (x < 300) {
+                x = x + 100;
+            } else {
+                x = 10;
+                y = y + 115;
+                total = total + 115;
+            }
         }
+        jScrollPaneProductos.setPreferredSize(new Dimension(400, total));
+        jScrollPaneProductos.updateUI();
     }
     /**
      * @param args the command line arguments
@@ -312,6 +343,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneProductos;
     private javax.swing.JTabbedPane jTabbedPane1;
