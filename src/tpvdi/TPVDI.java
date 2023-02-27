@@ -23,14 +23,15 @@ public class TPVDI {
         Usuario user = new Usuario("usuarioPrueba", "contraseñaPrueba", "rolPrueba", "nombrePrueba", "apellidosPrueba");
         Producto prod = new Producto(1,"refrescoPrueba",2.99,10);
         Venta venta = new Venta(1,101,2,prod,user);
+        Usuario chinaso = new Usuario("xin", "xan", "vendedor", "Xin-Zhao", "Yun");
         Ventas ventas;
-        //conUser.insertarUsuario(user);
+        conUser.insertarUsuario(chinaso);
         //conProduct.insertarProducto(prod);
         //conVentas.insertarVenta(venta);
-        ventas = conVentas.listarCiertasVentas(venta.getCodVenta());
-        for(int i=0;i<ventas.size();i++){
-            System.out.println(ventas.getVenta(i));
-        }
+        //ventas = conVentas.listarCiertasVentas(venta.getCodVenta());
+        //for(int i=0;i<ventas.size();i++){
+        //    System.out.println(ventas.getVenta(i));
+        //}
     }
     
 }
