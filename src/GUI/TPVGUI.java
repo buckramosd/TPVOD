@@ -318,6 +318,11 @@ public class TPVGUI extends javax.swing.JFrame {
 
         btnModificarProd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnModificarProd.setText("Modificar");
+        btnModificarProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarProdActionPerformed(evt);
+            }
+        });
 
         btnEliminarProd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEliminarProd.setText("Eliminar");
@@ -392,18 +397,37 @@ public class TPVGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuActionPerformed
-        // TODO add your handling code here:
+        if (this.listUsuarios.getSelectedIndex() == -1){
+                javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+            } else{
+                int pos = this.listUsuarios.getSelectedIndex();
+                ModificarUsuario modificarUsuario = new ModificarUsuario(this, true, listadoUsuarios.getUsuario(pos));
+                modificarUsuario.setVisible(true);
+            }
     }//GEN-LAST:event_btnModificarUsuActionPerformed
 
     private void btnAñadirProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdActionPerformed
         AñadirProducto añadirProducto = new AñadirProducto(this, true);
         añadirProducto.setVisible(true);
+        cargarProductos();
+        cargarProductosAdmin();
     }//GEN-LAST:event_btnAñadirProdActionPerformed
 
     private void btnAñadirUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirUsuActionPerformed
         AñadirUsuario añadirUsuario = new AñadirUsuario(this, true);
         añadirUsuario.setVisible(true);
+        cargarUsuarios();
     }//GEN-LAST:event_btnAñadirUsuActionPerformed
+
+    private void btnModificarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProdActionPerformed
+          if (this.listProductos.getSelectedIndex() == -1){
+                javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+            } else{
+                int pos = this.listProductos.getSelectedIndex();
+                ModificarProducto modificarProducto = new ModificarProducto(this, true, listadoProductos.getProducto(pos));
+                modificarProducto.setVisible(true);
+            }
+    }//GEN-LAST:event_btnModificarProdActionPerformed
 
     private void cargarProductos() {
         Productos productos = conexionProductos.listarProductos();

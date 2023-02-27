@@ -8,14 +8,17 @@ import BD.GestionProductoBD;
 import entidades.Producto;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Dani Buck
  */
 public class AñadirProducto extends javax.swing.JDialog {
+
     GestionProductoBD conexionProductos;
     File fselect;
+
     /**
      * Creates new form AñadirProducto
      */
@@ -141,13 +144,13 @@ public class AñadirProducto extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSelectImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
-                .addGap(18, 18, 18)
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addComponent(btnAñadirProd)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
@@ -193,20 +196,28 @@ public class AñadirProducto extends javax.swing.JDialog {
         String pvp = this.txtPVP.getText();
         String cantidad = this.txtCantidad.getText();
         String url = this.txtRutaImagen.getText();
-        if(!nombre.isEmpty() && !pvp.isEmpty() && !cantidad.isEmpty() && !url.isEmpty()) {
+        if (!nombre.isEmpty() && !pvp.isEmpty() && !cantidad.isEmpty() && !url.isEmpty()) {
             Producto prod = new Producto(nombre, Double.valueOf(pvp), Integer.parseInt(cantidad));
-            conexionProductos.insertarProducto(prod);
-            int idProducto = conexionProductos.obtenerUltimoId();
-            conexionProductos.updatearFotoProducto(idProducto, fselect);
+            if (!conexionProductos.insertarProducto(prod)) {
+                int idProducto = conexionProductos.obtenerUltimoId();
+                conexionProductos.updatearFotoProducto(idProducto, fselect);
+                JOptionPane.showMessageDialog(null, "Producto agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha podido insertar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos del formulario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAñadirProdActionPerformed
 
     private void txtPVPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPVPKeyPressed
-            if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
-               txtPVP.setEditable(true);
-            } else {
-               txtPVP.setEditable(false);
-            }
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            txtPVP.setEditable(true);
+        } else {
+            txtPVP.setEditable(false);
+        }
     }//GEN-LAST:event_txtPVPKeyPressed
 
     /**
