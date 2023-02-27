@@ -40,6 +40,19 @@ public class Producto {
         this.imagen = imagen;
     }
 
+    public Producto(String nombre, Double pvp, int stock, ImageIcon imagen) {
+        this.nombre = nombre;
+        this.pvp = pvp;
+        this.stock = stock;
+        this.imagen = imagen;
+    }
+
+    public Producto(String nombre, Double pvp, int stock) {
+        this.nombre = nombre;
+        this.pvp = pvp;
+        this.stock = stock;
+    }
+
     public int getIdProducto() {
         return idProducto;
     }
