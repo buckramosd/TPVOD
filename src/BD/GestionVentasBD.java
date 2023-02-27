@@ -38,7 +38,7 @@ public class GestionVentasBD {
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("INSERT INTO venta(codVenta, cantidad, idProducto, username) VALUES ('%s', '%s','%s', '%s')",
+            String sql = String.format("INSERT INTO ventas(codVenta, cantidad, idProducto, username) VALUES ('%s', '%s','%s', '%s')",
                     venta.getCodVenta(), venta.getCantidad(), venta.getProducto().getIdProducto(), venta.getUsuario().getNombreUsuario());
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
@@ -142,7 +142,6 @@ public class GestionVentasBD {
     /**
      * Método que devuelve una lista de tipo venta con todas las ventas de la
      * base de datos.
-     *
      * @return
      */
     public Ventas listarTodasVentas() {
@@ -151,7 +150,7 @@ public class GestionVentasBD {
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("SELECT ventas.* FROM ((ventas "
+            String sql = String.format("SELECT * FROM ((ventas "
                     + "INNER JOIN productos ON ventas.idProducto = productos.idProducto)"
                     + "INNER JOIN usuarios ON ventas.username = usuarios.username)");
             sentencia.execute(sql);
@@ -160,8 +159,8 @@ public class GestionVentasBD {
                 listadoCompleto.addVenta(new Venta(rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
-                        new Producto(rs.getInt(4), rs.getString(5), rs.getDouble(6), rs.getInt(7)),
-                        new Usuario(rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)
+                        new Producto(rs.getInt(4), rs.getString(7), rs.getDouble(8), rs.getInt(9)),
+                        new Usuario(rs.getString(5), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13)
                         )));
             }
             rs.close();
@@ -176,7 +175,6 @@ public class GestionVentasBD {
     /**
      * Método que devuelve una lista de tipo venta con todas las ventas con
      * cierto codVenta de la base de datos.
-     *
      * @param codVenta
      * @return lista
      */
@@ -186,7 +184,7 @@ public class GestionVentasBD {
         conectar();
         try {
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("SELECT ventas.* FROM ((ventas "
+            String sql = String.format("SELECT * FROM ((ventas "
                     + "INNER JOIN productos ON ventas.idProducto = productos.idProducto)"
                     + "INNER JOIN usuarios ON ventas.username = usuarios.username)"
                     + "WHERE codVenta='%s'", codVenta);
@@ -196,8 +194,8 @@ public class GestionVentasBD {
                 listadoCod.addVenta(new Venta(rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
-                        new Producto(rs.getInt(4), rs.getString(5), rs.getDouble(6), rs.getInt(7)),
-                        new Usuario(rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)
+                        new Producto(rs.getInt(4), rs.getString(7), rs.getDouble(8), rs.getInt(9)),
+                        new Usuario(rs.getString(5), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13)
                         )));
             }
             rs.close();
