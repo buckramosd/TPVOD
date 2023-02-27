@@ -4,8 +4,8 @@
  */
 package tpvdi;
 
-import BD.GestionUsuarioBD;
-import entidades.Usuario;
+import BD.*;
+import entidades.*;
 
 /**
  *
@@ -18,8 +18,19 @@ public class TPVDI {
      */
     public static void main(String[] args) {
         GestionUsuarioBD conUser = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
-        Usuario user = new Usuario("prueba", "prueba", "admin", "prueba", "prueba");
-        conUser.insertarUsuario(user);
+        GestionProductoBD conProduct = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
+        GestionVentasBD conVentas = new GestionVentasBD("localhost", "root", "", "tpv", 3306);
+        Usuario user = new Usuario("usuarioPrueba", "contraseñaPrueba", "rolPrueba", "nombrePrueba", "apellidosPrueba");
+        Producto prod = new Producto(1,"refrescoPrueba",2.99,10);
+        Venta venta = new Venta(1,101,2,prod,user);
+        Ventas ventas;
+        //conUser.insertarUsuario(user);
+        //conProduct.insertarProducto(prod);
+        //conVentas.insertarVenta(venta);
+        ventas = conVentas.listarCiertasVentas(venta.getCodVenta());
+        for(int i=0;i<ventas.size();i++){
+            System.out.println(ventas.getVenta(i));
+        }
     }
     
 }
