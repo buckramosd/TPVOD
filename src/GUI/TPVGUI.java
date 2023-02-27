@@ -98,11 +98,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        listProductosTPV.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listProductosTPV.setModel(this.modeloJListProductos);
         jScrollPane1.setViewportView(listProductosTPV);
 
         btn7.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
@@ -454,14 +450,14 @@ public class TPVGUI extends javax.swing.JFrame {
     private void cargarProductosAdmin() {
         //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
         for (int i = 0; i < listadoProductos.size(); i++) {
-            modeloJListProductos.addElement("Producto: " + listadoProductos.getProducto(i).getNombre() + "| Cantidad: " + listadoProductos.getProducto(i).getStock());
+            modeloJListProductos.addElement("Producto: " + listadoProductos.getProducto(i).getNombre() + " | Cantidad: " + listadoProductos.getProducto(i).getStock());
         }
     }
     
     private void cargarUsuarios() {
         //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
         for (int i = 0; i < listadoUsuarios.size(); i++) {
-            modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombre() + "| Rol: " + listadoUsuarios.getUsuario(i).getRol());
+            modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombre() + " | Rol: " + listadoUsuarios.getUsuario(i).getRol());
         }
     }
     /**
