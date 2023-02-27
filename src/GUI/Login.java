@@ -1,21 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package GUI;
 
-import BD.GestionBD;
 import BD.GestionUsuarioBD;
 import entidades.Usuario;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Dani Buck
- */
+
 public class Login extends javax.swing.JFrame {
 
-    GestionBD conexion;
     GestionUsuarioBD conexionUsuario;
     Usuario usuario;
 
@@ -24,7 +16,6 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        conexion = new GestionBD("localhost", "root", "", "tpv", 3306);
         conexionUsuario = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
         usuario = new Usuario();
     }
@@ -40,11 +31,54 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JTextField();
-        btnIniciarSesion = new javax.swing.JButton();
+        jTFUser = new javax.swing.JTextField();
+        jTFPass = new javax.swing.JTextField();
+        jBIniciarSesion = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jB1 = new javax.swing.JButton();
+        jB2 = new javax.swing.JButton();
+        jB3 = new javax.swing.JButton();
+        jB4 = new javax.swing.JButton();
+        jB5 = new javax.swing.JButton();
+        jB6 = new javax.swing.JButton();
+        jB7 = new javax.swing.JButton();
+        jB8 = new javax.swing.JButton();
+        jB9 = new javax.swing.JButton();
+        jB0 = new javax.swing.JButton();
+        jBq = new javax.swing.JButton();
+        jBw = new javax.swing.JButton();
+        jBe = new javax.swing.JButton();
+        jBr = new javax.swing.JButton();
+        jBt = new javax.swing.JButton();
+        jBy = new javax.swing.JButton();
+        jBu = new javax.swing.JButton();
+        jBi = new javax.swing.JButton();
+        jBo = new javax.swing.JButton();
+        jBp = new javax.swing.JButton();
+        jBa = new javax.swing.JButton();
+        jBs = new javax.swing.JButton();
+        jBd = new javax.swing.JButton();
+        jBf = new javax.swing.JButton();
+        jBg = new javax.swing.JButton();
+        jBh = new javax.swing.JButton();
+        jBj = new javax.swing.JButton();
+        jBk = new javax.swing.JButton();
+        jBl = new javax.swing.JButton();
+        jBgn = new javax.swing.JButton();
+        jBz = new javax.swing.JButton();
+        jBx = new javax.swing.JButton();
+        jBc = new javax.swing.JButton();
+        jBv = new javax.swing.JButton();
+        jBb = new javax.swing.JButton();
+        jBn = new javax.swing.JButton();
+        jBm = new javax.swing.JButton();
+        jBguionbajo = new javax.swing.JButton();
+        jBguion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 500));
+        setResizable(false);
+        setSize(new java.awt.Dimension(1000, 500));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Usuario:");
@@ -52,75 +86,201 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Contraseña:");
 
-        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTFUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTFPass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnIniciarSesion.setText("Iniciar sesión");
-        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+        jBIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBIniciarSesion.setText("Iniciar sesión");
+        jBIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarSesionActionPerformed(evt);
+                jBIniciarSesionActionPerformed(evt);
             }
         });
+
+        jPanel1.setLayout(new java.awt.GridLayout(4, 10));
+
+        jB1.setText("1");
+        jPanel1.add(jB1);
+
+        jB2.setText("2");
+        jPanel1.add(jB2);
+
+        jB3.setText("3");
+        jPanel1.add(jB3);
+
+        jB4.setText("4");
+        jPanel1.add(jB4);
+
+        jB5.setText("5");
+        jPanel1.add(jB5);
+
+        jB6.setText("6");
+        jPanel1.add(jB6);
+
+        jB7.setText("7");
+        jPanel1.add(jB7);
+
+        jB8.setText("8");
+        jPanel1.add(jB8);
+
+        jB9.setText("9");
+        jPanel1.add(jB9);
+
+        jB0.setText("0");
+        jPanel1.add(jB0);
+
+        jBq.setText("q");
+        jPanel1.add(jBq);
+
+        jBw.setText("w");
+        jPanel1.add(jBw);
+
+        jBe.setText("e");
+        jPanel1.add(jBe);
+
+        jBr.setText("r");
+        jPanel1.add(jBr);
+
+        jBt.setText("t");
+        jPanel1.add(jBt);
+
+        jBy.setText("y");
+        jPanel1.add(jBy);
+
+        jBu.setText("u");
+        jPanel1.add(jBu);
+
+        jBi.setText("i");
+        jPanel1.add(jBi);
+
+        jBo.setText("o");
+        jPanel1.add(jBo);
+
+        jBp.setText("p");
+        jPanel1.add(jBp);
+
+        jBa.setText("a");
+        jPanel1.add(jBa);
+
+        jBs.setText("s");
+        jPanel1.add(jBs);
+
+        jBd.setText("d");
+        jPanel1.add(jBd);
+
+        jBf.setText("f");
+        jPanel1.add(jBf);
+
+        jBg.setText("g");
+        jPanel1.add(jBg);
+
+        jBh.setText("h");
+        jPanel1.add(jBh);
+
+        jBj.setText("j");
+        jPanel1.add(jBj);
+
+        jBk.setText("k");
+        jPanel1.add(jBk);
+
+        jBl.setText("l");
+        jPanel1.add(jBl);
+
+        jBgn.setText("ñ");
+        jPanel1.add(jBgn);
+
+        jBz.setText("z");
+        jPanel1.add(jBz);
+
+        jBx.setText("x");
+        jPanel1.add(jBx);
+
+        jBc.setText("c");
+        jPanel1.add(jBc);
+
+        jBv.setText("v");
+        jPanel1.add(jBv);
+
+        jBb.setText("b");
+        jPanel1.add(jBb);
+
+        jBn.setText("n");
+        jPanel1.add(jBn);
+
+        jBm.setText("m");
+        jPanel1.add(jBm);
+
+        jBguionbajo.setText("_");
+        jPanel1.add(jBguionbajo);
+
+        jBguion.setText("-");
+        jPanel1.add(jBguion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(62, 62, 62))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(38, 38, 38)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(95, 95, 95))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTFUser, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jTFPass, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(btnIniciarSesion)
+                .addGap(326, 326, 326)
+                .addComponent(jBIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnIniciarSesion)
-                .addGap(21, 21, 21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFUser, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFPass, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        String nombreUsuario = this.txtUsuario.getText();
-        String contraseña = this.txtContraseña.getText();
+    private void jBIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBIniciarSesionActionPerformed
+        String nombreUsuario = this.jTFUser.getText();
+        String contraseña = this.jTFPass.getText();
         if (nombreUsuario.length() > 0 && contraseña.length() > 0) {
             usuario = conexionUsuario.buscarUsuario(nombreUsuario);
-            if(usuario.getRol().equals("admin") || usuario.getRol().equals("vendedor")) {
-                TPVGUI tpv = new TPVGUI(usuario);
-                tpv.setVisible(true);
-                this.setVisible(false);
+            if (usuario != null) {
+                if (usuario.getRol().equals("admin") || usuario.getRol().equals("vendedor")) {
+                    TPVGUI tpv = new TPVGUI(usuario);
+                    tpv.setVisible(true);
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario no tiene rol registrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "EL usuario no está registrado como empleado", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El usuario no está registrado como tal en la BD.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         } else {
-            JOptionPane.showMessageDialog(null, "Los campos usuario y contraseña no pueden estar vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Los campos usuario y contraseña no pueden estar vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+    }//GEN-LAST:event_jBIniciarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,10 +318,50 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JButton jB0;
+    private javax.swing.JButton jB1;
+    private javax.swing.JButton jB2;
+    private javax.swing.JButton jB3;
+    private javax.swing.JButton jB4;
+    private javax.swing.JButton jB5;
+    private javax.swing.JButton jB6;
+    private javax.swing.JButton jB7;
+    private javax.swing.JButton jB8;
+    private javax.swing.JButton jB9;
+    private javax.swing.JButton jBIniciarSesion;
+    private javax.swing.JButton jBa;
+    private javax.swing.JButton jBb;
+    private javax.swing.JButton jBc;
+    private javax.swing.JButton jBd;
+    private javax.swing.JButton jBe;
+    private javax.swing.JButton jBf;
+    private javax.swing.JButton jBg;
+    private javax.swing.JButton jBgn;
+    private javax.swing.JButton jBguion;
+    private javax.swing.JButton jBguionbajo;
+    private javax.swing.JButton jBh;
+    private javax.swing.JButton jBi;
+    private javax.swing.JButton jBj;
+    private javax.swing.JButton jBk;
+    private javax.swing.JButton jBl;
+    private javax.swing.JButton jBm;
+    private javax.swing.JButton jBn;
+    private javax.swing.JButton jBo;
+    private javax.swing.JButton jBp;
+    private javax.swing.JButton jBq;
+    private javax.swing.JButton jBr;
+    private javax.swing.JButton jBs;
+    private javax.swing.JButton jBt;
+    private javax.swing.JButton jBu;
+    private javax.swing.JButton jBv;
+    private javax.swing.JButton jBw;
+    private javax.swing.JButton jBx;
+    private javax.swing.JButton jBy;
+    private javax.swing.JButton jBz;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txtContraseña;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTFPass;
+    private javax.swing.JTextField jTFUser;
     // End of variables declaration//GEN-END:variables
 }
