@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-02-2023 a las 20:07:36
+-- Tiempo de generación: 27-02-2023 a las 19:00:33
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -35,6 +35,13 @@ CREATE TABLE `productos` (
   `imagen` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`idProducto`, `nombre`, `pvp`, `stock`, `imagen`) VALUES
+(1, 'refrescoPrueba', 2.99, 10, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +56,14 @@ CREATE TABLE `usuarios` (
   `apellidos` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`username`, `password`, `rol`, `nombre`, `apellidos`) VALUES
+('usuarioPrueba', 'contraseñaPrueba', 'rolPrueba', 'nombrePrueba', 'apellidosPrueba'),
+('xin', 'xan', 'vendedor', 'Xin-Zhao', 'Yun');
+
 -- --------------------------------------------------------
 
 --
@@ -62,6 +77,13 @@ CREATE TABLE `ventas` (
   `idProducto` int(11) NOT NULL,
   `username` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`idVenta`, `codVenta`, `cantidad`, `idProducto`, `username`) VALUES
+(1, 101, 2, 1, 'usuarioPrueba');
 
 --
 -- Índices para tablas volcadas
@@ -95,13 +117,13 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `idVenta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
