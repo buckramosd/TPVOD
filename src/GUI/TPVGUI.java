@@ -5,14 +5,17 @@
 package GUI;
 
 import BD.GestionProductoBD;
+import BD.GestionUsuarioBD;
 import entidades.Producto;
 import entidades.Productos;
 import entidades.Usuario;
+import entidades.Usuarios;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -23,14 +26,26 @@ import javax.swing.SwingConstants;
  */
 public class TPVGUI extends javax.swing.JFrame {
     GestionProductoBD conexionProductos;
+    GestionUsuarioBD conexionUsuario;
+    Productos listadoProductos;
+    Usuarios listadoUsuarios;
+    DefaultListModel modeloJListProductos;
+    DefaultListModel modeloJListUsuarios;
     /**
      * Creates new form TPVGUI
      * @param usuario
      */
     public TPVGUI(Usuario usuario) {
         conexionProductos = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
+        conexionUsuario = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
+        modeloJListProductos = new DefaultListModel();
+        modeloJListUsuarios = new DefaultListModel();
         initComponents();
+        listadoProductos = conexionProductos.listarProductos();
+        listadoUsuarios = conexionUsuario.listarUsuarios();
         cargarProductos();
+        cargarProductosAdmin();
+        cargarUsuarios();
         //Si el usuario no es admin bloquea la ventana "Administración"
         if(usuario.getRol().equals("vendedor")){
             this.jTabbedPane1.setEnabledAt(1, false);
@@ -234,11 +249,8 @@ public class TPVGUI extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        listUsuarios.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listUsuarios.setModel(this.modeloJListUsuarios);
         jScrollPane2.setViewportView(listUsuarios);
 
         btnAñadirUsu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -296,11 +308,8 @@ public class TPVGUI extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        listProductos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listProductos.setModel(this.modeloJListProductos);
         jScrollPane3.setViewportView(listProductos);
 
         btnAñadirProd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -400,7 +409,7 @@ public class TPVGUI extends javax.swing.JFrame {
         añadirUsuario.setVisible(true);
     }//GEN-LAST:event_btnAñadirUsuActionPerformed
 
-    public void cargarProductos() {
+    private void cargarProductos() {
         Productos productos = conexionProductos.listarProductos();
         int x = 10;
         int y = 10;
@@ -440,6 +449,20 @@ public class TPVGUI extends javax.swing.JFrame {
         }
         jScrollPaneProductos.setPreferredSize(new Dimension(400, total));
         jScrollPaneProductos.updateUI();
+    }
+    
+    private void cargarProductosAdmin() {
+        //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
+        for (int i = 0; i < listadoProductos.size(); i++) {
+            modeloJListProductos.addElement("Producto: " + listadoProductos.getProducto(i).getNombre() + "| Cantidad: " + listadoProductos.getProducto(i).getStock());
+        }
+    }
+    
+    private void cargarUsuarios() {
+        //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
+        for (int i = 0; i < listadoUsuarios.size(); i++) {
+            modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombre() + "| Rol: " + listadoUsuarios.getUsuario(i).getRol());
+        }
     }
     /**
      * @param args the command line arguments

@@ -162,10 +162,18 @@ public class AñadirUsuario extends javax.swing.JDialog {
         String apellidos = this.txtApellidos.getText();
         if(!usuario.isEmpty() && !password.isEmpty() && !rol.isEmpty() &&
                 !nombre.isEmpty() && !apellidos.isEmpty()) {
-            Usuario user = new Usuario(usuario, password, rol, nombre, apellidos);
-            conexionUsuario.insertarUsuario(user);
+            if(rol.equals("admin") || rol.equals("vendedor")){
+                Usuario user = new Usuario(usuario, password, rol, nombre, apellidos);
+                if(conexionUsuario.insertarUsuario(user)){
+                    JOptionPane.showMessageDialog(null, "Usuario agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                     JOptionPane.showMessageDialog(null, "No se ha podido insertar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+                } 
+            } else {
+                JOptionPane.showMessageDialog(null, "Sólo se admiten los roles 'admin' y 'vendedor'.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos del formulario", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos del formulario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAñadirUsuarioActionPerformed
 

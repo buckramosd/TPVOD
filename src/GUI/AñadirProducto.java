@@ -201,7 +201,6 @@ public class AñadirProducto extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAñadirProdActionPerformed
 
     private void txtPVPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPVPKeyPressed
-        String value = txtPVP.getText();
             if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
                txtPVP.setEditable(true);
             } else {

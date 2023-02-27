@@ -28,6 +28,10 @@ public class Usuarios {
         return encontrado;
     }
     
+    public Usuario getUsuario(int idUsuario) {
+        return listaUsuarios.get(idUsuario);
+    }
+    
     public boolean removeUsuario(String nombreUsuario) {
         return listaUsuarios.remove(this.getUsuario(nombreUsuario));
     }
