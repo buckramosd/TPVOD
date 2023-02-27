@@ -196,7 +196,8 @@ public class AñadirProducto extends javax.swing.JDialog {
         if(!nombre.isEmpty() && !pvp.isEmpty() && !cantidad.isEmpty() && !url.isEmpty()) {
             Producto prod = new Producto(nombre, Double.valueOf(pvp), Integer.parseInt(cantidad));
             conexionProductos.insertarProducto(prod);
-            conexionProductos.updatearFotoProducto(prod.getIdProducto(), fselect);
+            int idProducto = conexionProductos.obtenerUltimoId();
+            conexionProductos.updatearFotoProducto(idProducto, fselect);
         }
     }//GEN-LAST:event_btnAñadirProdActionPerformed
 

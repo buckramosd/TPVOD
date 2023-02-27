@@ -180,6 +180,26 @@ public class GestionProductoBD {
         return listado;
     }
     
+    public int obtenerUltimoId() {
+        int id = 0;
+        ResultSet rs;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("SELECT MAX(idProducto) as id FROM productos");
+            System.out.println("Consulta SQL: " + sql);
+            sentencia.execute(sql);
+            rs = sentencia.getResultSet();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error en conexión(Obtener ID)" + ex.getMessage());
+        }
+        return id;
+    }
+    
     /**
      * Método que permite obtener el ImageIcon del producto según su id.
      * @param idProducto
