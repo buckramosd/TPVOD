@@ -13,16 +13,10 @@ import java.sql.Statement;
 public class GestionUsuarioBD {
     
     private final String HOST;
-    //Driver
-    //Usuario
     private final String USUARIO;
-    //Contraseña
     private final String PASSWORD;
-    //Nombre BD
     private final String BD;
-    //Puerto
     private final int PUERTO;
-    //Conexión
     private Connection conexion;
 
     public GestionUsuarioBD(String HOST, String USUARIO, String PASSWORD, String BD, int PUERTO) {
@@ -35,16 +29,16 @@ public class GestionUsuarioBD {
     
     /**
      * Método para insertar un nuevo usuario en la base de datos.
-     * @param prod
+     * @param usuario
      * @return 
      */
-    public boolean insertarUsuario(Usuario user){
+    public boolean insertarUsuario(Usuario usuario){
         boolean resultado = false;       
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("INSERT INTO usuarios(username, password, rol, nombre, apellidos) VALUES ('%s', '%s', '%s','%s', '%s')",
-                    user.getNombreUsuario(), user.getContraseña(), user.getRol(), user.getNombre(),user.getApellidos());
+                    usuario.getNombreUsuario(), usuario.getContraseña(), usuario.getRol(), usuario.getNombre(),usuario.getApellidos());
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
             sentencia.close();
@@ -91,18 +85,17 @@ public class GestionUsuarioBD {
     
     /**
      * Método para cambiar el rol de un usuario.
-     * @param nombreUsuario
-     * @param rol
+     * @param usuario
      * @return 
      */
-    public boolean modificarRol(String nombreUsuario, String rol) {
+    public boolean modificarRol(Usuario usuario) {
         boolean resultado = false;
         ResultSet rs;
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("UPDATE usuarios SET rol='%s' WHERE username =%s",
-                    rol, nombreUsuario);
+            String sql = String.format("UPDATE usuarios SET rol='%s' WHERE username ='%s'",
+                    usuario.getRol(), usuario.getNombreUsuario());
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
             sentencia.close();
@@ -111,6 +104,53 @@ public class GestionUsuarioBD {
             System.out.println("Error en conexión(Actualizar rol usuario)" + ex.getMessage());
         }
         return resultado;
+    }
+    
+    /**
+     * Método para modificar campos de usuario.
+     * @param user
+     * @param user_new
+     * @return 
+     */
+    public boolean modificarUsuario(Usuario user, Usuario user_new) {
+        boolean resultadoModificar = false;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("UPDATE usuarios SET password='%s',rol='%s',nombre='%s',apellidos='%s' WHERE username='%s'",
+                                        user_new.getContraseña(), user_new.getRol(), user_new.getNombre(),user_new.getApellidos(), user.getNombreUsuario());
+            System.out.println("Consulta SQL: " + sql);
+            resultadoModificar = sentencia.execute(sql);
+            sentencia.close();
+            desconectar();
+        } catch (SQLException ex) {
+            System.out.println("Error en conexión(Actualizar empleado)" + ex.getMessage());
+        }
+        
+        return resultadoModificar;
+    }
+    
+    /**
+     * Borra usuario de la base de datos, por si hubiera un despido.
+     * @param usuario
+     * @return 
+     */
+    public boolean borrarUsuario(Usuario usuario) {
+        boolean resultadoBorrar = false;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("DELETE FROM usuarios WHERE username ='%s'", 
+                    usuario.getNombreUsuario());
+            System.out.println("Consulta SQL: " + sql);
+            resultadoBorrar = sentencia.execute(sql);
+            sentencia.close();
+            desconectar();
+        } catch (SQLException ex) {
+            System.out.println("Error en conexión(Borrar usuario)" + ex.getMessage());
+        }
+        
+        return resultadoBorrar;
     }
     
     /**
