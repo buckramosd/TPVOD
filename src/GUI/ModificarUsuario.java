@@ -6,16 +6,23 @@ package GUI;
 
 import BD.GestionUsuarioBD;
 import entidades.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Dani Buck
  */
 public class ModificarUsuario extends javax.swing.JDialog {
+
     GestionUsuarioBD conexionUsuario;
     Usuario usuario;
+    Usuario usuarioModificado;
+
     /**
      * Creates new form ModificarUsuario
+     * @param parent
+     * @param modal
+     * @param user 
      */
     public ModificarUsuario(java.awt.Frame parent, boolean modal, Usuario user) {
         super(parent, modal);
@@ -27,6 +34,7 @@ public class ModificarUsuario extends javax.swing.JDialog {
         this.txtRolMod.setText(user.getRol());
         this.txtNombreMod.setText(user.getNombre());
         this.txtApellidosMod.setText(user.getApellidos());
+        txtUsernameMod.setEnabled(false);
     }
 
     /**
@@ -168,7 +176,8 @@ public class ModificarUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
-        // TODO add your handling code here:
+        validar();
+        conexionUsuario.modificarUsuario(usuario, usuarioModificado);
     }//GEN-LAST:event_btnModificarUsuarioActionPerformed
 
     /**
@@ -212,91 +221,48 @@ public class ModificarUsuario extends javax.swing.JDialog {
             }
         });
     }
+    
+    /**
+     * Método para comprobar que el formulario está completo y cumpliendo ciertos requisitos para modificar el usuario en la BD.
+     * - Ningún campo está vacío
+     * - El username, PK de la BD, no puede sufrir cambios
+     * - Si las dos anteriores se cumplen, guarda en un nuevo objeto Usuario usuarioModificado los datos que queremos actualizar del usuario ya existente
+     */
+    public void validar() {
+        String usName = txtUsernameMod.getText().toLowerCase();
+        String pass = txtPasswordMod.getText().toLowerCase();
+        String rol = txtRolMod.getText().toLowerCase();
+        String nombre = txtNombreMod.getText().toLowerCase();
+        String apell = txtApellidosMod.getText().toLowerCase();
+        // No están vacíos
+        if (!usName.isBlank() || !pass.isBlank() || !rol.isBlank() || !nombre.isBlank() || !apell.isBlank()) {
+            // Verificar si son los mismos que el usuario original
+            if (!usuario.getNombreUsuario().equals(usName)) {
+                // Establecer todo en el nuevo objeto tipo usuario
+                usuarioModificado.setContraseña(pass);
+                usuarioModificado.setRol(rol);
+                usuarioModificado.setNombre(nombre);
+                usuarioModificado.setApellidos(apell);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede cambiar el nombre de usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Hay campo/s del formulario vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAñadirUsuario;
-    private javax.swing.JButton btnAñadirUsuario1;
-    private javax.swing.JButton btnAñadirUsuario2;
-    private javax.swing.JButton btnAñadirUsuario3;
-    private javax.swing.JButton btnAñadirUsuario4;
-    private javax.swing.JButton btnAñadirUsuario5;
     private javax.swing.JButton btnModificarUsuario;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JTextField txtApellidos;
-    private javax.swing.JTextField txtApellidos1;
-    private javax.swing.JTextField txtApellidos2;
-    private javax.swing.JTextField txtApellidos3;
-    private javax.swing.JTextField txtApellidos4;
-    private javax.swing.JTextField txtApellidos5;
     private javax.swing.JTextField txtApellidosMod;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombre3;
-    private javax.swing.JTextField txtNombre4;
-    private javax.swing.JTextField txtNombre5;
     private javax.swing.JTextField txtNombreMod;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtPassword1;
-    private javax.swing.JTextField txtPassword2;
-    private javax.swing.JTextField txtPassword3;
-    private javax.swing.JTextField txtPassword4;
-    private javax.swing.JTextField txtPassword5;
     private javax.swing.JTextField txtPasswordMod;
-    private javax.swing.JTextField txtRol;
-    private javax.swing.JTextField txtRol1;
-    private javax.swing.JTextField txtRol2;
-    private javax.swing.JTextField txtRol3;
-    private javax.swing.JTextField txtRol4;
-    private javax.swing.JTextField txtRol5;
     private javax.swing.JTextField txtRolMod;
-    private javax.swing.JTextField txtUsername;
-    private javax.swing.JTextField txtUsername1;
-    private javax.swing.JTextField txtUsername2;
-    private javax.swing.JTextField txtUsername3;
-    private javax.swing.JTextField txtUsername4;
-    private javax.swing.JTextField txtUsername5;
     private javax.swing.JTextField txtUsernameMod;
     // End of variables declaration//GEN-END:variables
 }
