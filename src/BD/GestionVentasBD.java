@@ -19,6 +19,7 @@ public class GestionVentasBD {
     private final String BD;
     private final int PUERTO;
     private Connection conexion;
+    private final GestionProductoBD conProduct = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
 
     public GestionVentasBD(String HOST, String USUARIO, String PASSWORD, String BD, int PUERTO) {
         this.HOST = HOST;
@@ -29,13 +30,27 @@ public class GestionVentasBD {
     }
 
     /**
-     * Método para insertar una nueva venta en la base de datos.
+     * Método para insertar una nueva venta en la base de datos. Hay control de
+     * que la cantidad no exceda el stock que tenemos de ese producto en el
+     * "almacén".
+     *
      * @param venta
      * @return
      */
     public boolean insertarVenta(Venta venta) {
         boolean resultado = false;
         try {
+            // Creo objeto producto con los datos de la venta
+            Producto prod = conProduct.buscarProducto(venta.getProducto().getIdProducto());
+            // Si la cantidad a vender del producto es mayor que su stock
+            if (venta.getCantidad() > prod.getStock()) {
+                // establezco que la cantidad a vender sea ese stock, para no excederlo
+                venta.setCantidad(prod.getStock());
+            }
+            // Con este método cambio el stock del producto en la tabla producto(BD), con una serie de condiciones expuestas en la documentación
+            // del método
+            // La ejecución de este método viene después de establecer la cantidad para que no haya incongluencias en la base de datos
+            conProduct.modificarStockProducto(venta.getCantidad(), venta.getProducto().getIdProducto());
             conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("INSERT INTO ventas(codVenta, cantidad, idProducto, username) VALUES ('%s', '%s','%s', '%s')",
@@ -52,8 +67,9 @@ public class GestionVentasBD {
 
     /**
      * Método para buscar una venta por su id
+     *
      * @param venta
-     * @return 
+     * @return
      */
     public Venta buscarVenta(Venta venta) {
         Venta ventaBuscada = null;
@@ -88,10 +104,10 @@ public class GestionVentasBD {
     }
 
     /**
-     * 
+     *
      * @param venta
      * @param venta_new
-     * @return 
+     * @return
      */
     public boolean actualizarVenta(Venta venta, Venta venta_new) {
         boolean resultado = false;
@@ -113,9 +129,10 @@ public class GestionVentasBD {
 
     /**
      * Método para modificar cantidades a un pedido/venta.
+     *
      * @param venta
      * @param cantidad
-     * @return 
+     * @return
      */
     public boolean modificarCantidadVenta(Venta venta, int cantidad) {
         boolean resultado = false;
@@ -123,15 +140,15 @@ public class GestionVentasBD {
             conectar();
             String sql = String.format("UPDATE ventas SET cantidad=? WHERE idVenta=? AND codVenta=?");
             PreparedStatement pstmt = conexion.prepareStatement(sql);
-            
+
             Venta buscada = buscarVenta(venta);
             int cantidadInicial = buscada.getCantidad();
             int cantidadTotal = cantidadInicial + cantidad;
-            
+
             System.out.println("Consulta SQL: " + sql);
-            pstmt.setInt(1,cantidadTotal);
-            pstmt.setInt(2,venta.getIdVenta());
-            pstmt.setInt(3,venta.getCodVenta());
+            pstmt.setInt(1, cantidadTotal);
+            pstmt.setInt(2, venta.getIdVenta());
+            pstmt.setInt(3, venta.getCodVenta());
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error en conexión (Actualizar venta)" + ex.getMessage());
@@ -142,6 +159,7 @@ public class GestionVentasBD {
     /**
      * Método que devuelve una lista de tipo venta con todas las ventas de la
      * base de datos.
+     *
      * @return
      */
     public Ventas listarTodasVentas() {
@@ -175,6 +193,7 @@ public class GestionVentasBD {
     /**
      * Método que devuelve una lista de tipo venta con todas las ventas con
      * cierto codVenta de la base de datos.
+     *
      * @param codVenta
      * @return lista
      */
