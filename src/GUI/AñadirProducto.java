@@ -6,6 +6,7 @@ package GUI;
 
 import BD.GestionProductoBD;
 import entidades.Producto;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -72,8 +73,14 @@ public class AñadirProducto extends javax.swing.JDialog {
         });
 
         txtPVP.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtPVPKeyPressed(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPVPKeyTyped(evt);
+            }
+        });
+
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
             }
         });
 
@@ -122,7 +129,7 @@ public class AñadirProducto extends javax.swing.JDialog {
                                 .addComponent(txtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(btnSelectImagen)))
-                        .addContainerGap(68, Short.MAX_VALUE))))
+                        .addContainerGap(78, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(160, 160, 160)
                 .addComponent(btnAñadirProd)
@@ -145,14 +152,14 @@ public class AñadirProducto extends javax.swing.JDialog {
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSelectImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(txtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(btnAñadirProd)
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(btnSelectImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addComponent(btnAñadirProd)))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -212,13 +219,20 @@ public class AñadirProducto extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAñadirProdActionPerformed
 
-    private void txtPVPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPVPKeyPressed
-        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
-            txtPVP.setEditable(true);
-        } else {
-            txtPVP.setEditable(false);
-        }
-    }//GEN-LAST:event_txtPVPKeyPressed
+    private void txtPVPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPVPKeyTyped
+        char caracter = evt.getKeyChar();
+                    if (((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE)
+                            && (caracter != '.') ) {
+                        evt.consume();
+                    }
+    }//GEN-LAST:event_txtPVPKeyTyped
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        char caracter = evt.getKeyChar();
+                    if (((caracter < '0') || (caracter > '9')) ) {
+                        evt.consume();
+                    }
+    }//GEN-LAST:event_txtCantidadKeyTyped
 
     /**
      * @param args the command line arguments

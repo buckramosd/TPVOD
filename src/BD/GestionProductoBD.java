@@ -59,6 +59,23 @@ public class GestionProductoBD {
         }
         return resultado;
     }
+    
+    public boolean borrarProducto(Producto prod) {
+        boolean resultado = false;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("DELETE FROM productos WHERE idProducto ='%s'",
+                    prod.getIdProducto());
+            System.out.println("Consulta SQL: " + sql);
+            resultado = sentencia.execute(sql);
+            sentencia.close();
+            desconectar();
+        } catch (SQLException ex) {
+            System.out.println("Error en conexión(Borrar producto)" + ex.getMessage());
+        }
+        return resultado;
+    }
 
     /**
      * Método para updatear los productos con sus imágenes representativas.
@@ -119,7 +136,7 @@ public class GestionProductoBD {
 
         return productoBuscado;
     }
-    
+  
     /**
      * Método para cambiar el stock de un producto restándole cierta cantidad.
      * Si la cantidad a restar es mayor que el stock, establecemos el stock a 0.
@@ -200,6 +217,26 @@ public class GestionProductoBD {
         return id;
     }
     
+    public int obtenerIDProducto(Producto producto) {
+        int id = 0;
+        ResultSet rs;
+        try {
+            conectar();
+            Statement sentencia = conexion.createStatement();
+            String sql = String.format("SELECT idProducto FROM productos WHERE nombre='%s'", producto.getNombre());
+            System.out.println("Consulta SQL: " + sql);
+            sentencia.execute(sql);
+            rs = sentencia.getResultSet();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error en conexión(Obtener ID)" + ex.getMessage());
+        }
+        return id;
+    }
+    
     /**
      * Método que permite obtener el ImageIcon del producto según su id.
      * @param idProducto
@@ -214,6 +251,36 @@ public class GestionProductoBD {
         try {
             conectar();
             sql = "SELECT imagen FROM productos WHERE idProducto = " + idProducto + " ";
+            pstmt = conexion.prepareStatement(sql);
+
+            ResultSet rs = pstmt.executeQuery(sql);
+            while (rs.next()) {
+                Blob blob = rs.getBlob("imagen");
+                blobLength = (int) blob.length();
+                blobAsBytes = blob.getBytes(1, blobLength);
+                final BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
+                imgProducto = new ImageIcon(bufferedImage);
+            }
+        } catch (IOException | SQLException ex) {
+            System.out.println("Error en excepcion" + ex.toString());
+        }
+        return imgProducto;
+    }
+    
+    /**
+     * Método que permite obtener el ImageIcon del producto según su nombre.
+     * @param nombre
+     * @return 
+     */
+    public ImageIcon getFotoProducto(String nombre) {
+        ImageIcon imgProducto = null;
+        PreparedStatement pstmt;
+        int blobLength;
+        byte[] blobAsBytes;
+        try {
+            conectar();
+            String sql = String.format("SELECT imagen FROM productos WHERE nombre ='%s'",
+                    nombre);
             pstmt = conexion.prepareStatement(sql);
 
             ResultSet rs = pstmt.executeQuery(sql);

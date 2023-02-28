@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -25,14 +26,17 @@ import javax.swing.SwingConstants;
  * @author damm
  */
 public class TPVGUI extends javax.swing.JFrame {
+
     GestionProductoBD conexionProductos;
     GestionUsuarioBD conexionUsuario;
     Productos listadoProductos;
     Usuarios listadoUsuarios;
     DefaultListModel modeloJListProductos;
     DefaultListModel modeloJListUsuarios;
+
     /**
      * Creates new form TPVGUI
+     *
      * @param usuario
      */
     public TPVGUI(Usuario usuario) {
@@ -47,7 +51,7 @@ public class TPVGUI extends javax.swing.JFrame {
         cargarProductosAdmin();
         cargarUsuarios();
         //Si el usuario no es admin bloquea la ventana "Administración"
-        if(usuario.getRol().equals("vendedor")){
+        if (usuario.getRol().equals("vendedor")) {
             this.jTabbedPane1.setEnabledAt(1, false);
         }
     }
@@ -267,6 +271,11 @@ public class TPVGUI extends javax.swing.JFrame {
 
         btnEliminarUsu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEliminarUsu.setText("Eliminar");
+        btnEliminarUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarUsuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -326,6 +335,11 @@ public class TPVGUI extends javax.swing.JFrame {
 
         btnEliminarProd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEliminarProd.setText("Eliminar");
+        btnEliminarProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProdActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -397,13 +411,14 @@ public class TPVGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuActionPerformed
-        if (this.listUsuarios.getSelectedIndex() == -1){
-                javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
-            } else{
-                int pos = this.listUsuarios.getSelectedIndex();
-                ModificarUsuario modificarUsuario = new ModificarUsuario(this, true, listadoUsuarios.getUsuario(pos));
-                modificarUsuario.setVisible(true);
-            }
+        if (this.listUsuarios.getSelectedIndex() == -1) {
+            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+        } else {
+            int pos = this.listUsuarios.getSelectedIndex();
+            ModificarUsuario modificarUsuario = new ModificarUsuario(this, true, listadoUsuarios.getUsuario(pos));
+            modificarUsuario.setVisible(true);
+            cargarUsuarios();
+        }
     }//GEN-LAST:event_btnModificarUsuActionPerformed
 
     private void btnAñadirProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdActionPerformed
@@ -420,29 +435,57 @@ public class TPVGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAñadirUsuActionPerformed
 
     private void btnModificarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProdActionPerformed
-          if (this.listProductos.getSelectedIndex() == -1){
-                javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
-            } else{
-                int pos = this.listProductos.getSelectedIndex();
-                ModificarProducto modificarProducto = new ModificarProducto(this, true, listadoProductos.getProducto(pos));
-                modificarProducto.setVisible(true);
-            }
+        if (this.listProductos.getSelectedIndex() == -1) {
+            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+        } else {
+            int pos = this.listProductos.getSelectedIndex();
+            ModificarProducto modificarProducto = new ModificarProducto(this, true, listadoProductos.getProducto(pos));
+            modificarProducto.setVisible(true);
+            cargarProductos();
+            cargarProductosAdmin();
+        }
     }//GEN-LAST:event_btnModificarProdActionPerformed
+
+    private void btnEliminarUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuActionPerformed
+        if (this.listUsuarios.getSelectedIndex() == -1) {
+            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+        } else {
+            int pos = this.listUsuarios.getSelectedIndex();
+            if (JOptionPane.showConfirmDialog(rootPane, "Se eliminará el registro, ¿desea continuar?",
+                    "Eliminar Registro", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                conexionUsuario.borrarUsuario(listadoUsuarios.getUsuario(pos));
+                modeloJListUsuarios.remove(pos);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarUsuActionPerformed
+
+    private void btnEliminarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProdActionPerformed
+        if (this.listProductos.getSelectedIndex() == -1) {
+            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+        } else {
+            int pos = this.listProductos.getSelectedIndex();
+            if (JOptionPane.showConfirmDialog(rootPane, "Se eliminará el registro, ¿desea continuar?",
+                    "Eliminar Registro", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                conexionProductos.borrarProducto(listadoProductos.getProducto(pos));
+                modeloJListProductos.remove(pos);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarProdActionPerformed
 
     private void cargarProductos() {
         Productos productos = conexionProductos.listarProductos();
         int x = 10;
         int y = 10;
         int total = 130;
-        
+
         this.jScrollPaneProductos.removeAll();
-        for(int i = 0; i < productos.size(); i++) {
+        for (int i = 0; i < productos.size(); i++) {
             Producto producto = productos.getProducto(i);
             JButton boton = new JButton(producto.getNombre());
             boton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
+
                 }
             });
             boton.setBounds(x, y, 100, 100);
@@ -471,20 +514,21 @@ public class TPVGUI extends javax.swing.JFrame {
         jScrollPaneProductos.setPreferredSize(new Dimension(400, total));
         jScrollPaneProductos.updateUI();
     }
-    
+
     private void cargarProductosAdmin() {
         //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
         for (int i = 0; i < listadoProductos.size(); i++) {
             modeloJListProductos.addElement("Producto: " + listadoProductos.getProducto(i).getNombre() + " | Cantidad: " + listadoProductos.getProducto(i).getStock());
         }
     }
-    
+
     private void cargarUsuarios() {
         //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
         for (int i = 0; i < listadoUsuarios.size(); i++) {
-            modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombre() + " | Rol: " + listadoUsuarios.getUsuario(i).getRol());
+            modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombreUsuario() + " | Rol: " + listadoUsuarios.getUsuario(i).getRol());
         }
     }
+
     /**
      * @param args the command line arguments
      */

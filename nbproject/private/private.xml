@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/GUI/AñadirProducto.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/entidades/Productos.java</file>
             <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/GUI/TPVGUI.java</file>
-            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/BD/GestionBD.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/GUI/ModificarUsuario.java</file>
             <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/BD/GestionProductoBD.java</file>
-            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/entidades/Ventas.java</file>
-            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/entidades/Usuario.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/GUI/ModificarProducto.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/entidades/Usuarios.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/GUI/AñadirUsuario.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/GUI/Login.java</file>
+            <file>file:/C:/Users/Dani%20Buck/Documents/NetBeansProjects/TPVOD/src/BD/GestionUsuarioBD.java</file>
         </group>
     </open-files>
 </project-private>
