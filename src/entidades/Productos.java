@@ -19,6 +19,10 @@ public class Productos {
         return listaProductos.get(idProducto);
     }
     
+    public Producto get(int index) {
+        return listaProductos.get(index);
+    }
+    
     public boolean removeEmpleado(int idProducto) {
         return listaProductos.remove(this.getProducto(idProducto));
     }

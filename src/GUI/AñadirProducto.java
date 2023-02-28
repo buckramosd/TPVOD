@@ -66,12 +66,6 @@ public class AñadirProducto extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Imagen:");
 
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
-
         txtPVP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPVPKeyTyped(evt);
@@ -182,10 +176,6 @@ public class AñadirProducto extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
     private void btnSelectImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImagenActionPerformed
         JFileChooser chooser = new JFileChooser();
         // optionally set chooser options ...
@@ -203,8 +193,10 @@ public class AñadirProducto extends javax.swing.JDialog {
         String pvp = this.txtPVP.getText();
         String cantidad = this.txtCantidad.getText();
         String url = this.txtRutaImagen.getText();
+        //Comprobamos que los campos no estén vacíos
         if (!nombre.isEmpty() && !pvp.isEmpty() && !cantidad.isEmpty() && !url.isEmpty()) {
             Producto prod = new Producto(nombre, Double.valueOf(pvp), Integer.parseInt(cantidad));
+            //Insertamos producto y actualizamos con la imagen
             if (!conexionProductos.insertarProducto(prod)) {
                 int idProducto = conexionProductos.obtenerUltimoId();
                 conexionProductos.updatearFotoProducto(idProducto, fselect);
@@ -218,7 +210,7 @@ public class AñadirProducto extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos del formulario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAñadirProdActionPerformed
-
+    //Control de sólo valores Double en el campo PVP
     private void txtPVPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPVPKeyTyped
         char caracter = evt.getKeyChar();
                     if (((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE)
@@ -226,7 +218,7 @@ public class AñadirProducto extends javax.swing.JDialog {
                         evt.consume();
                     }
     }//GEN-LAST:event_txtPVPKeyTyped
-
+    //Control de sólo valores Enteros en el campo Cantidad
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
         char caracter = evt.getKeyChar();
                     if (((caracter < '0') || (caracter > '9')) ) {

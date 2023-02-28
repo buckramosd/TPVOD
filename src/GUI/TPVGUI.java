@@ -39,31 +39,37 @@ public class TPVGUI extends javax.swing.JFrame {
     DefaultListModel modeloJListUsuarios;
     DefaultListModel modeloJListVenta;
     Usuario user;
+    //Variables para los precios
+    //Deberíam ser tratadas como Doubles y no como Enteros, esto se hace
+    //porque de otro modo no se puede asignar al textField del precio
     int precioProducto;
     int precioTotalProducto;
     int precioTotal;
     int cantidad;
+    int codVenta;
+
     /**
      * Creates new form TPVGUI
      *
      * @param usuario
      */
     public TPVGUI(Usuario usuario) {
+        //Conexiones 
         conexionProductos = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
         conexionUsuario = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
         conexionVentas = new GestionVentasBD("localhost", "root", "", "tpv", 3306);
+        //Modelos de lista 
         modeloJListProductos = new DefaultListModel();
         modeloJListUsuarios = new DefaultListModel();
         modeloJListVenta = new DefaultListModel();
         initComponents();
-        listadoProductos = conexionProductos.listarProductos();
-        listadoUsuarios = conexionUsuario.listarUsuarios();
-        ventas = conexionVentas.listarTodasVentas();
+        ventas = new Ventas();
+        //Inicializar los JList
         cargarProductos();
         cargarProductosAdmin();
         cargarUsuarios();
         user = usuario;
-        
+        codVenta = 1;
         //Si el usuario no es admin bloquea la ventana "Administración"
         if (usuario.getRol().equals("vendedor")) {
             this.jTabbedPane1.setEnabledAt(1, false);
@@ -507,21 +513,23 @@ public class TPVGUI extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
         } else {
             int pos = this.listUsuarios.getSelectedIndex();
+            //Nueva ventana para modificar el usuario pasado por parámetro
             ModificarUsuario modificarUsuario = new ModificarUsuario(this, true, listadoUsuarios.getUsuario(pos));
             modificarUsuario.setVisible(true);
-            cargarUsuarios();
         }
     }//GEN-LAST:event_btnModificarUsuActionPerformed
 
     private void btnAñadirProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdActionPerformed
+        //Nueva ventana para añadir producto
         AñadirProducto añadirProducto = new AñadirProducto(this, true);
         añadirProducto.setVisible(true);
-         modeloJListProductos.removeAllElements();
+        modeloJListProductos.removeAllElements();
         cargarProductos();
         cargarProductosAdmin();
     }//GEN-LAST:event_btnAñadirProdActionPerformed
 
     private void btnAñadirUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirUsuActionPerformed
+        //Nueva ventana para añadir producto
         AñadirUsuario añadirUsuario = new AñadirUsuario(this, true);
         añadirUsuario.setVisible(true);
         modeloJListUsuarios.removeAllElements();
@@ -533,10 +541,10 @@ public class TPVGUI extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
         } else {
             int pos = this.listProductos.getSelectedIndex();
+            //Nueva ventana para modificar el producto pasado por parámetro
             ModificarProducto modificarProducto = new ModificarProducto(this, true, listadoProductos.getProducto(pos));
             modificarProducto.setVisible(true);
             cargarProductos();
-            cargarProductosAdmin();
         }
     }//GEN-LAST:event_btnModificarProdActionPerformed
 
@@ -545,6 +553,7 @@ public class TPVGUI extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
         } else {
             int pos = this.listUsuarios.getSelectedIndex();
+            //Ventana de confirmación para eliminar un usuario de la BD y de la lista
             if (JOptionPane.showConfirmDialog(rootPane, "Se eliminará el registro, ¿desea continuar?",
                     "Eliminar Registro", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 conexionUsuario.borrarUsuario(listadoUsuarios.getUsuario(pos));
@@ -558,15 +567,19 @@ public class TPVGUI extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un producto");
         } else {
             int pos = this.listProductos.getSelectedIndex();
+            //Ventana de confirmación para eliminar un producto de la BD y de la lista
             if (JOptionPane.showConfirmDialog(rootPane, "Se eliminará el registro, ¿desea continuar?",
                     "Eliminar Registro", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                conexionProductos.borrarProducto(listadoProductos.getProducto(pos));
+                conexionProductos.borrarProducto(listadoProductos.get(pos));
                 modeloJListProductos.remove(pos);
+                cargarProductos();
             }
         }
     }//GEN-LAST:event_btnEliminarProdActionPerformed
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
+        //Elimina los productos de la lista de compra, vacía el campo total y
+        //reinicia las variables para los precios
         this.modeloJListVenta.removeAllElements();
         this.txtTotal.setText("");
         precioTotal = 0;
@@ -578,16 +591,22 @@ public class TPVGUI extends javax.swing.JFrame {
         if (this.listProductosTPV.getSelectedIndex() == -1) {
             javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un producto");
         } else {
+            //Elimina el producto seleccionado de la lista y la cantidad
             int pos = this.listProductosTPV.getSelectedIndex();
-                modeloJListVenta.remove(pos + 1);
-                modeloJListVenta.remove(pos);
-                precioTotal -= precioTotalProducto;
-                txtTotal.setText(String.valueOf(precioTotal));
-            }
+            modeloJListVenta.remove(pos + 1);
+            modeloJListVenta.remove(pos);
+            //Elimina del total, el precio del producto * cantidad
+            //NO FUNCIONA puesto que resta el último valor asignado a la variable
+            precioTotal -= precioTotalProducto;
+            txtTotal.setText(String.valueOf(precioTotal));
+        }
     }//GEN-LAST:event_btnBorrarProdActionPerformed
-
+    //Botones numéricos del teclado. Deben ser pulsados después de agregar un producto.
+    //Asignan el valor a la variable cantidad y a la propiedad cantidad del producto.
+    //Calculan el precio total del producto (precio * Uds) y lo suma al total.
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         cantidad = Integer.parseInt(this.btn1.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -596,6 +615,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
         cantidad = Integer.parseInt(this.btn2.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -604,6 +624,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
         cantidad = Integer.parseInt(this.btn3.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -612,6 +633,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
         cantidad = Integer.parseInt(this.btn4.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -620,6 +642,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
         cantidad = Integer.parseInt(this.btn5.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -628,6 +651,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
         cantidad = Integer.parseInt(this.btn6.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -636,6 +660,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
         cantidad = Integer.parseInt(this.btn7.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -644,6 +669,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
         cantidad = Integer.parseInt(this.btn8.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
@@ -652,38 +678,53 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
         cantidad = Integer.parseInt(this.btn9.getText());
+        venta.setCantidad(cantidad);
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(precioTotal));
     }//GEN-LAST:event_btn9ActionPerformed
 
+    //Al terminar la venta se inserta en la BD
+    //No funciona correctamente
     private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
-        conexionVentas.insertarVenta(venta);
+        venta.setCodVenta(codVenta);
+        codVenta++;
+        venta.setCantidad(cantidad);
+        ventas.addVenta(venta);
+        for (int i = 0; i < ventas.size(); i++) {
+            conexionVentas.insertarVenta(ventas.get(i));
+        }
     }//GEN-LAST:event_btnTerminarActionPerformed
 
+    //Carga los productos de la BD
     private void cargarProductos() {
         Productos productos = conexionProductos.listarProductos();
         int x = 10;
         int y = 10;
         int total = 130;
         this.jScrollPaneProductos.removeAll();
+        //Por cada producto crea un botón
         for (int i = 0; i < productos.size(); i++) {
             Producto producto = productos.getProducto(i);
             JButton boton = new JButton(producto.getNombre());
             boton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    //Por cada producto pulsado se genera una nueva venta
                     venta = new Venta(producto, user);
                     modeloJListVenta.addElement(producto.getNombre() + ", Precio: " + producto.getPvp());
+                    //Obtenemos el pvp del producto
                     precioProducto = producto.getPvp().intValue();
                 }
             });
+            //Establecemos tamaño y posición de los botones
             boton.setBounds(x, y, 100, 100);
             boton.setText("");
             boton.setVisible(true);
             boton.setIcon(conexionProductos.getFotoProducto(producto.getIdProducto()));
             this.jScrollPaneProductos.add(boton);
+            //Creamos jLabel para cada producto con el nombre
             JLabel nombre = new JLabel(producto.getNombre());
             nombre.setText(producto.getNombre());
             nombre.setBounds(x, y + 100, 100, 15);
@@ -702,13 +743,17 @@ public class TPVGUI extends javax.swing.JFrame {
         jScrollPaneProductos.updateUI();
     }
 
+    //Carga los productos en el jList del Admin Area
     private void cargarProductosAdmin() {
+        listadoProductos = conexionProductos.listarProductos();
         for (int i = 0; i < listadoProductos.size(); i++) {
             modeloJListProductos.addElement("Producto: " + listadoProductos.getProducto(i).getNombre() + " | Cantidad: " + listadoProductos.getProducto(i).getStock());
         }
     }
 
+    //Carga los usuarios en el jList del Admin Area
     private void cargarUsuarios() {
+        listadoUsuarios = conexionUsuario.listarUsuarios();
         for (int i = 0; i < listadoUsuarios.size(); i++) {
             modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombreUsuario() + " | Rol: " + listadoUsuarios.getUsuario(i).getRol());
         }

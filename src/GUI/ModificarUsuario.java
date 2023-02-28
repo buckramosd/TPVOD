@@ -22,6 +22,8 @@ public class ModificarUsuario extends javax.swing.JDialog {
         initComponents();
         conexionUsuario = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
         usuario = user;
+        //A partir del objeto Producto pasado como parámetro rellenamos los campos
+        //del formulario
         this.txtUsernameMod.setText(user.getNombreUsuario());
         this.txtPasswordMod.setText(user.getContraseña());
         this.txtRolMod.setText(user.getRol());
@@ -171,6 +173,7 @@ public class ModificarUsuario extends javax.swing.JDialog {
     private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
         validar();
         conexionUsuario.modificarUsuario(usuario, usuarioModificado);
+        this.setVisible(false);
     }//GEN-LAST:event_btnModificarUsuarioActionPerformed
 
     /**
@@ -234,6 +237,7 @@ public class ModificarUsuario extends javax.swing.JDialog {
             // Verificar si son los mismos que el usuario original
             if (!usuario.getNombreUsuario().equals(usName)) {
                 // Establecer todo en el nuevo objeto tipo usuario
+                usuarioModificado = new Usuario();
                 usuarioModificado.setContraseña(pass);
                 usuarioModificado.setRol(rol);
                 usuarioModificado.setNombre(nombre);

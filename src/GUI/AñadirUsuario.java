@@ -160,12 +160,15 @@ public class AñadirUsuario extends javax.swing.JDialog {
         String rol = this.txtRol.getText();
         String nombre = this.txtNombre.getText();
         String apellidos = this.txtApellidos.getText();
+        //Comprobamos que los campos no estén vacíos
         if(!usuario.isEmpty() && !password.isEmpty() && !rol.isEmpty() &&
                 !nombre.isEmpty() && !apellidos.isEmpty()) {
+            //Comprobamos que los roles sólo puedan ser admin o vendedor
             if(rol.equals("admin") || rol.equals("vendedor")){
                 Usuario user = new Usuario(usuario, password, rol, nombre, apellidos);
                 if(!conexionUsuario.insertarUsuario(user)){
                     JOptionPane.showMessageDialog(null, "Usuario agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                     this.setVisible(false);
                 } else {
                      JOptionPane.showMessageDialog(null, "No se ha podido insertar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
                 } 

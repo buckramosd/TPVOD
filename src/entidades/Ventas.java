@@ -25,4 +25,8 @@ public class Ventas {
     public int size() {
         return listaVentas.size();
     }
+    
+    public Venta get(int index) {
+        return listaVentas.get(index);
+    }
 }

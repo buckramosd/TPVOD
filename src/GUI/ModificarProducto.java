@@ -26,6 +26,8 @@ public class ModificarProducto extends javax.swing.JDialog {
         initComponents();
         producto = prod;
         conexionProductos = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
+        //A partir del objeto Producto pasado como parámetro rellenamos los campos
+        //del formulario
         this.txtNombre.setText(prod.getNombre());
         this.txtPVP.setText(prod.getPvp().toString());
         this.txtCantidad.setText(String.valueOf(prod.getStock()));
@@ -129,18 +131,20 @@ public class ModificarProducto extends javax.swing.JDialog {
                             .addComponent(jLabel3))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPVP, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(50, 50, 50)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSelectImagen))))
+                                .addComponent(btnSelectImagen))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(50, 50, 50)
+                                    .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addGap(62, 62, 62)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtPVP, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(205, 205, 205)
                         .addComponent(btnModificarProd)))
@@ -219,8 +223,10 @@ public class ModificarProducto extends javax.swing.JDialog {
         String cantidad = this.txtCantidad.getText();
         String url = this.txtRuta.getText();
         int idProducto = conexionProductos.obtenerIDProducto(producto);
+        //Comprobamos que la cantidad y la url tengan valores
         if (!cantidad.isEmpty() && !url.isEmpty()) {
             Producto prod_new = new Producto(nombre, Double.valueOf(pvp), Integer.parseInt(cantidad));
+            //Si se ha podido actualizar el stock, que se actualice la imagen
             if (!conexionProductos.modificarStockProducto(Integer.parseInt(cantidad), idProducto)) {
                 conexionProductos.updatearFotoProducto(idProducto, fselect);
                 JOptionPane.showMessageDialog(null, "Producto actualizado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -233,7 +239,7 @@ public class ModificarProducto extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos del formulario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnModificarProdActionPerformed
-
+    //Control de sólo valores Enteros en el campo Cantidad
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
         char caracter = evt.getKeyChar();
                     if (((caracter < '0') || (caracter > '9')) ) {
