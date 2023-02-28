@@ -6,10 +6,13 @@ package GUI;
 
 import BD.GestionProductoBD;
 import BD.GestionUsuarioBD;
+import BD.GestionVentasBD;
 import entidades.Producto;
 import entidades.Productos;
 import entidades.Usuario;
 import entidades.Usuarios;
+import entidades.Venta;
+import entidades.Ventas;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,11 +32,16 @@ public class TPVGUI extends javax.swing.JFrame {
 
     GestionProductoBD conexionProductos;
     GestionUsuarioBD conexionUsuario;
+    GestionVentasBD conexionVentas;
     Productos listadoProductos;
     Usuarios listadoUsuarios;
+    Ventas ventas;
     DefaultListModel modeloJListProductos;
     DefaultListModel modeloJListUsuarios;
-
+    DefaultListModel modeloJListVenta;
+    Usuario user;
+    Double precioProducto;
+    Double precioTotal;
     /**
      * Creates new form TPVGUI
      *
@@ -42,14 +50,19 @@ public class TPVGUI extends javax.swing.JFrame {
     public TPVGUI(Usuario usuario) {
         conexionProductos = new GestionProductoBD("localhost", "root", "", "tpv", 3306);
         conexionUsuario = new GestionUsuarioBD("localhost", "root", "", "tpv", 3306);
+        conexionVentas = new GestionVentasBD("localhost", "root", "", "tpv", 3306);
         modeloJListProductos = new DefaultListModel();
         modeloJListUsuarios = new DefaultListModel();
+        modeloJListVenta = new DefaultListModel();
         initComponents();
         listadoProductos = conexionProductos.listarProductos();
         listadoUsuarios = conexionUsuario.listarUsuarios();
+        ventas = conexionVentas.listarTodasVentas();
         cargarProductos();
         cargarProductosAdmin();
         cargarUsuarios();
+        user = usuario;
+        
         //Si el usuario no es admin bloquea la ventana "Administración"
         if (usuario.getRol().equals("vendedor")) {
             this.jTabbedPane1.setEnabledAt(1, false);
@@ -76,16 +89,18 @@ public class TPVGUI extends javax.swing.JFrame {
         btn8 = new javax.swing.JButton();
         btn4 = new javax.swing.JButton();
         btn9 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btnTerminar = new javax.swing.JButton();
         btn5 = new javax.swing.JButton();
         btn6 = new javax.swing.JButton();
         btn2 = new javax.swing.JButton();
         btn3 = new javax.swing.JButton();
         btn0 = new javax.swing.JButton();
         btnC = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        btnBorrarProd = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPaneProductos = new javax.swing.JScrollPane();
+        jLabel1 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
         TabAdmin = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -103,6 +118,7 @@ public class TPVGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         listProductosTPV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listProductosTPV.setModel(this.modeloJListVenta);
         jScrollPane1.setViewportView(listProductosTPV);
 
         btn7.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
@@ -123,8 +139,8 @@ public class TPVGUI extends javax.swing.JFrame {
         btn9.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn9.setText("9");
 
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jButton9.setText("?");
+        btnTerminar.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        btnTerminar.setText("+");
 
         btn5.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn5.setText("5");
@@ -143,9 +159,19 @@ public class TPVGUI extends javax.swing.JFrame {
 
         btnC.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btnC.setText("C");
+        btnC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCActionPerformed(evt);
+            }
+        });
 
-        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jButton10.setText("?");
+        btnBorrarProd.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        btnBorrarProd.setText("-");
+        btnBorrarProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarProdActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,8 +205,8 @@ public class TPVGUI extends javax.swing.JFrame {
                         .addComponent(btnC, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTerminar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrarProd, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12))
         );
         jPanel1Layout.setVerticalGroup(
@@ -209,9 +235,9 @@ public class TPVGUI extends javax.swing.JFrame {
                                 .addComponent(btn0, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnC, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTerminar, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnBorrarProd, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
@@ -219,15 +245,26 @@ public class TPVGUI extends javax.swing.JFrame {
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
         jPanel2.add(jScrollPaneProductos);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("TOTAL:");
+
+        txtTotal.setEditable(false);
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout TabTPVLayout = new javax.swing.GroupLayout(TabTPV);
         TabTPV.setLayout(TabTPVLayout);
         TabTPVLayout.setHorizontalGroup(
             TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TabTPVLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1))
+                .addGroup(TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1))
+                    .addGroup(TabTPVLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -235,12 +272,16 @@ public class TPVGUI extends javax.swing.JFrame {
         TabTPVLayout.setVerticalGroup(
             TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TabTPVLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(11, 11, 11)
                 .addGroup(TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(TabTPVLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(TabTPVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -308,7 +349,7 @@ public class TPVGUI extends javax.swing.JFrame {
                 .addComponent(btnModificarUsu)
                 .addGap(36, 36, 36)
                 .addComponent(btnEliminarUsu)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -461,7 +502,7 @@ public class TPVGUI extends javax.swing.JFrame {
 
     private void btnEliminarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProdActionPerformed
         if (this.listProductos.getSelectedIndex() == -1) {
-            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un usuario");
+            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un producto");
         } else {
             int pos = this.listProductos.getSelectedIndex();
             if (JOptionPane.showConfirmDialog(rootPane, "Se eliminará el registro, ¿desea continuar?",
@@ -471,6 +512,22 @@ public class TPVGUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarProdActionPerformed
+
+    private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
+        this.modeloJListVenta.removeAllElements();
+        this.txtTotal.setText("");
+    }//GEN-LAST:event_btnCActionPerformed
+
+    private void btnBorrarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarProdActionPerformed
+        if (this.listProductosTPV.getSelectedIndex() == -1) {
+            javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un producto");
+        } else {
+            int pos = this.listProductosTPV.getSelectedIndex();
+                modeloJListVenta.remove(pos);
+                precioTotal -= precioProducto;
+                txtTotal.setText(String.valueOf(precioTotal));
+            }
+    }//GEN-LAST:event_btnBorrarProdActionPerformed
 
     private void cargarProductos() {
         Productos productos = conexionProductos.listarProductos();
@@ -485,7 +542,11 @@ public class TPVGUI extends javax.swing.JFrame {
             boton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    Venta venta = new Venta(producto, user);
+                    modeloJListVenta.addElement(producto.getNombre() + " Cantidad: ");
+                    precioProducto = producto.getPvp();
+                    precioTotal += producto.getPvp();
+                    txtTotal.setText(String.valueOf(precioTotal));
                 }
             });
             boton.setBounds(x, y, 100, 100);
@@ -579,14 +640,15 @@ public class TPVGUI extends javax.swing.JFrame {
     private javax.swing.JButton btn9;
     private javax.swing.JButton btnAñadirProd;
     private javax.swing.JButton btnAñadirUsu;
+    private javax.swing.JButton btnBorrarProd;
     private javax.swing.JButton btnC;
     private javax.swing.JButton btnComa;
     private javax.swing.JButton btnEliminarProd;
     private javax.swing.JButton btnEliminarUsu;
     private javax.swing.JButton btnModificarProd;
     private javax.swing.JButton btnModificarUsu;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton btnTerminar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -599,5 +661,6 @@ public class TPVGUI extends javax.swing.JFrame {
     private javax.swing.JList<String> listProductos;
     private javax.swing.JList<String> listProductosTPV;
     private javax.swing.JList<String> listUsuarios;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
