@@ -39,18 +39,18 @@ public class GestionVentasBD {
      */
     public boolean insertarVenta(Venta venta) {
         boolean resultado = false;
+        // Creo objeto producto con los datos de la venta
+        Producto prod = conProduct.buscarProducto(venta.getProducto().getIdProducto());
+        // Si la cantidad a vender del producto es mayor que su stock
+        if (venta.getCantidad() > prod.getStock()) {
+            // establezco que la cantidad a vender sea ese stock, para no excederlo
+            venta.setCantidad(prod.getStock());
+        }
+        // Con este método cambio el stock del producto en la tabla producto(BD), con una serie de condiciones expuestas en la documentación
+        // del método
+        // La ejecución de este método viene después de establecer la cantidad para que no haya incongluencias en la base de datos
+        conProduct.modificarStockProducto(venta.getCantidad(), venta.getProducto().getIdProducto());
         try {
-            // Creo objeto producto con los datos de la venta
-            Producto prod = conProduct.buscarProducto(venta.getProducto().getIdProducto());
-            // Si la cantidad a vender del producto es mayor que su stock
-            if (venta.getCantidad() > prod.getStock()) {
-                // establezco que la cantidad a vender sea ese stock, para no excederlo
-                venta.setCantidad(prod.getStock());
-            }
-            // Con este método cambio el stock del producto en la tabla producto(BD), con una serie de condiciones expuestas en la documentación
-            // del método
-            // La ejecución de este método viene después de establecer la cantidad para que no haya incongluencias en la base de datos
-            conProduct.modificarStockProducto(venta.getCantidad(), venta.getProducto().getIdProducto());
             conectar();
             Statement sentencia = conexion.createStatement();
             String sql = String.format("INSERT INTO ventas(codVenta, cantidad, idProducto, username) VALUES ('%s', '%s','%s', '%s')",
