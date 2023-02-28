@@ -18,8 +18,8 @@ public class TPVDI {
         Usuario user = new Usuario("jarvan", "pormipadreelrey", "admin", "Jarvan", "IV");
         Producto prod = new Producto(2, "cocacola", 3.09, 7);
         Producto prod2 = new Producto(3, "fanta naranja", 2.78, 10);
-        Venta venta = new Venta(1, 2, 3, prod, conUser.buscarUsuario("xin"));
-        Venta venta2 = new Venta(1, 2, 4, prod2, conUser.buscarUsuario("xin"));
+        //Venta venta = new Venta(1, 2, 3, prod, conUser.buscarUsuario("xin"));
+        //Venta venta2 = new Venta(1, 2, 4, prod2, conUser.buscarUsuario("xin"));
         File f = new File("C:\\Users\\Oscar\\Desktop\\TPVOD\\productos\\cocacola-logo.png");
         File f2 = new File("C:\\Users\\Oscar\\Desktop\\TPVOD\\productos\\fanta-logo.png");
 

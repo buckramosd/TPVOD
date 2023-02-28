@@ -16,8 +16,6 @@ import entidades.Ventas;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,12 +34,15 @@ public class TPVGUI extends javax.swing.JFrame {
     Productos listadoProductos;
     Usuarios listadoUsuarios;
     Ventas ventas;
+    Venta venta;
     DefaultListModel modeloJListProductos;
     DefaultListModel modeloJListUsuarios;
     DefaultListModel modeloJListVenta;
     Usuario user;
-    Double precioProducto;
-    Double precioTotal;
+    int precioProducto;
+    int precioTotalProducto;
+    int precioTotal;
+    int cantidad;
     /**
      * Creates new form TPVGUI
      *
@@ -123,36 +124,86 @@ public class TPVGUI extends javax.swing.JFrame {
 
         btn7.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn7.setText("7");
+        btn7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn7ActionPerformed(evt);
+            }
+        });
 
         btn1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn1.setText("1");
+        btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn1ActionPerformed(evt);
+            }
+        });
 
         btnComa.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btnComa.setText(",");
 
         btn8.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn8.setText("8");
+        btn8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn8ActionPerformed(evt);
+            }
+        });
 
         btn4.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn4.setText("4");
+        btn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn4ActionPerformed(evt);
+            }
+        });
 
         btn9.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn9.setText("9");
+        btn9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn9ActionPerformed(evt);
+            }
+        });
 
         btnTerminar.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btnTerminar.setText("+");
+        btnTerminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTerminarActionPerformed(evt);
+            }
+        });
 
         btn5.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn5.setText("5");
+        btn5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn5ActionPerformed(evt);
+            }
+        });
 
         btn6.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn6.setText("6");
+        btn6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn6ActionPerformed(evt);
+            }
+        });
 
         btn2.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn2.setText("2");
+        btn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn2ActionPerformed(evt);
+            }
+        });
 
         btn3.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn3.setText("3");
+        btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3ActionPerformed(evt);
+            }
+        });
 
         btn0.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         btn0.setText("0");
@@ -349,7 +400,7 @@ public class TPVGUI extends javax.swing.JFrame {
                 .addComponent(btnModificarUsu)
                 .addGap(36, 36, 36)
                 .addComponent(btnEliminarUsu)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -445,7 +496,7 @@ public class TPVGUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 847, Short.MAX_VALUE)
         );
 
         pack();
@@ -465,6 +516,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btnAñadirProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdActionPerformed
         AñadirProducto añadirProducto = new AñadirProducto(this, true);
         añadirProducto.setVisible(true);
+         modeloJListProductos.removeAllElements();
         cargarProductos();
         cargarProductosAdmin();
     }//GEN-LAST:event_btnAñadirProdActionPerformed
@@ -472,6 +524,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btnAñadirUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirUsuActionPerformed
         AñadirUsuario añadirUsuario = new AñadirUsuario(this, true);
         añadirUsuario.setVisible(true);
+        modeloJListUsuarios.removeAllElements();
         cargarUsuarios();
     }//GEN-LAST:event_btnAñadirUsuActionPerformed
 
@@ -516,6 +569,9 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
         this.modeloJListVenta.removeAllElements();
         this.txtTotal.setText("");
+        precioTotal = 0;
+        precioProducto = 0;
+        precioTotalProducto = 0;
     }//GEN-LAST:event_btnCActionPerformed
 
     private void btnBorrarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarProdActionPerformed
@@ -523,18 +579,94 @@ public class TPVGUI extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(rootPane, "Error, hay que seleccionar un producto");
         } else {
             int pos = this.listProductosTPV.getSelectedIndex();
+                modeloJListVenta.remove(pos + 1);
                 modeloJListVenta.remove(pos);
-                precioTotal -= precioProducto;
+                precioTotal -= precioTotalProducto;
                 txtTotal.setText(String.valueOf(precioTotal));
             }
     }//GEN-LAST:event_btnBorrarProdActionPerformed
+
+    private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
+        cantidad = Integer.parseInt(this.btn1.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn1ActionPerformed
+
+    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
+        cantidad = Integer.parseInt(this.btn2.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn2ActionPerformed
+
+    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
+        cantidad = Integer.parseInt(this.btn3.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn3ActionPerformed
+
+    private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
+        cantidad = Integer.parseInt(this.btn4.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn4ActionPerformed
+
+    private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
+        cantidad = Integer.parseInt(this.btn5.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn5ActionPerformed
+
+    private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
+        cantidad = Integer.parseInt(this.btn6.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn6ActionPerformed
+
+    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
+        cantidad = Integer.parseInt(this.btn7.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn7ActionPerformed
+
+    private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
+        cantidad = Integer.parseInt(this.btn8.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn8ActionPerformed
+
+    private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
+        cantidad = Integer.parseInt(this.btn9.getText());
+        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        precioTotalProducto = precioProducto * cantidad;
+        precioTotal += precioTotalProducto;
+        txtTotal.setText(String.valueOf(precioTotal));
+    }//GEN-LAST:event_btn9ActionPerformed
+
+    private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
+        conexionVentas.insertarVenta(venta);
+    }//GEN-LAST:event_btnTerminarActionPerformed
 
     private void cargarProductos() {
         Productos productos = conexionProductos.listarProductos();
         int x = 10;
         int y = 10;
         int total = 130;
-
         this.jScrollPaneProductos.removeAll();
         for (int i = 0; i < productos.size(); i++) {
             Producto producto = productos.getProducto(i);
@@ -542,11 +674,9 @@ public class TPVGUI extends javax.swing.JFrame {
             boton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Venta venta = new Venta(producto, user);
-                    modeloJListVenta.addElement(producto.getNombre() + " Cantidad: ");
-                    precioProducto = producto.getPvp();
-                    precioTotal += producto.getPvp();
-                    txtTotal.setText(String.valueOf(precioTotal));
+                    venta = new Venta(producto, user);
+                    modeloJListVenta.addElement(producto.getNombre() + ", Precio: " + producto.getPvp());
+                    precioProducto = producto.getPvp().intValue();
                 }
             });
             boton.setBounds(x, y, 100, 100);
@@ -559,10 +689,6 @@ public class TPVGUI extends javax.swing.JFrame {
             nombre.setBounds(x, y + 100, 100, 15);
             nombre.setVisible(true);
             nombre.setHorizontalAlignment(SwingConstants.CENTER);
-            nombre.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                }
-            });
             this.jScrollPaneProductos.add(nombre);
             if (x < 300) {
                 x = x + 100;
@@ -577,14 +703,12 @@ public class TPVGUI extends javax.swing.JFrame {
     }
 
     private void cargarProductosAdmin() {
-        //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
         for (int i = 0; i < listadoProductos.size(); i++) {
             modeloJListProductos.addElement("Producto: " + listadoProductos.getProducto(i).getNombre() + " | Cantidad: " + listadoProductos.getProducto(i).getStock());
         }
     }
 
     private void cargarUsuarios() {
-        //Recoger datos de listadoDptos y cargarlos en modeloJListDptos
         for (int i = 0; i < listadoUsuarios.size(); i++) {
             modeloJListUsuarios.addElement("Usuario: " + listadoUsuarios.getUsuario(i).getNombreUsuario() + " | Rol: " + listadoUsuarios.getUsuario(i).getRol());
         }

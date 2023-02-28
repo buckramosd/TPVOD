@@ -54,14 +54,14 @@ public class GestionUsuarioBD {
      * @param nombreUsuario
      * @return producto.
      */
-    public Usuario buscarUsuario(String nombreUsuario) {
+    public Usuario buscarUsuario(String nombreUsuario, String password) {
         Usuario usuarioBuscado = null;
         ResultSet rs;
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("SELECT * FROM usuarios WHERE username ='%s'",
-                    nombreUsuario);
+            String sql = String.format("SELECT * FROM usuarios WHERE username ='%s' AND password='%s'",
+                    nombreUsuario, password);
             System.out.println("Consulta SQL: " + sql);
             sentencia.execute(sql);
             rs = sentencia.getResultSet();
@@ -168,7 +168,7 @@ public class GestionUsuarioBD {
             sentencia.execute(sql);
             rs = sentencia.getResultSet();
             while(rs.next()){
-                usuarioA = buscarUsuario(rs.getString(1));
+                usuarioA = buscarUsuario(rs.getString(1), rs.getString(2));
                 listado.addUsuario(usuarioA);
             }
             rs.close();

@@ -490,7 +490,7 @@ public class Login extends javax.swing.JFrame {
         // Comprueba que ambos campos estan rellenos
         if (nombreUsuario.length() > 0 && contraseña.length() > 0) {
             // Asignamos al objeto usuario el objeto usuario que obtenemos con buscarUsuario()
-            usuario = conexionUsuario.buscarUsuario(nombreUsuario);
+            usuario = conexionUsuario.buscarUsuario(nombreUsuario, contraseña);
             // si usuario es nulo es porque ha fallado el buscar
             if (usuario != null) {
                 if (usuario.getRol().equals("admin") || usuario.getRol().equals("vendedor")) {
