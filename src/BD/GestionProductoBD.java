@@ -37,11 +37,12 @@ public class GestionProductoBD {
         this.BD = BD;
         this.PUERTO = PUERTO;
     }
-    
+
     /**
      * Método para insertar un nuevo producto en la base de datos sin la foto.
+     *
      * @param prod
-     * @return 
+     * @return
      */
     public boolean insertarProducto(Producto prod) {
         boolean resultado = false;
@@ -62,8 +63,9 @@ public class GestionProductoBD {
 
     /**
      * Método para updatear los productos con sus imágenes representativas.
+     *
      * @param idProducto
-     * @param f 
+     * @param f
      */
     public void updatearFotoProducto(int idProducto, File f) {
         PreparedStatement pstmt;
@@ -83,9 +85,10 @@ public class GestionProductoBD {
             System.err.println("Error excepcion" + ex.toString());
         }
     }
-    
+
     /**
      * Método para buscar un producto en la base de datos.
+     *
      * @param idProducto
      * @return producto.
      */
@@ -119,13 +122,14 @@ public class GestionProductoBD {
 
         return productoBuscado;
     }
-    
+
     /**
      * Método para cambiar el stock de un producto restándole cierta cantidad.
      * Si la cantidad a restar es mayor que el stock, establecemos el stock a 0.
+     *
      * @param cantidad a reducir el stock
      * @param idProducto
-     * @return 
+     * @return
      */
     public boolean modificarStockProducto(int cantidad, int idProducto) {
         boolean resultado = false;
@@ -141,7 +145,7 @@ public class GestionProductoBD {
         try {
             conectar();
             Statement sentencia = conexion.createStatement();
-            String sql = String.format("UPDATE productos SET stock='%s' WHERE idProducto =%s",
+            String sql = String.format("UPDATE productos SET stock='%s' WHERE idProducto ='%s'",
                     productoModificar.getStock(), idProducto);
             System.out.println("Consulta SQL: " + sql);
             resultado = sentencia.execute(sql);
@@ -152,12 +156,14 @@ public class GestionProductoBD {
         }
         return resultado;
     }
-    
+
     /**
-     * Método que devuelve una lista de tipo Producto con todos los productos de la base de datos.
-     * @return 
+     * Método que devuelve una lista de tipo Producto con todos los productos de
+     * la base de datos.
+     *
+     * @return
      */
-    public Productos listarProductos(){
+    public Productos listarProductos() {
         Productos listado = new Productos();
         Producto productoA = null;
         ResultSet rs;
@@ -167,19 +173,19 @@ public class GestionProductoBD {
             String sql = String.format("SELECT * FROM productos");
             sentencia.execute(sql);
             rs = sentencia.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 productoA = buscarProducto(rs.getInt(1));
                 listado.addProducto(productoA);
             }
             rs.close();
             sentencia.close();
             desconectar();
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println("Error conexión" + ex.getMessage());
         }
         return listado;
     }
-    
+
     public int obtenerUltimoId() {
         int id = 0;
         ResultSet rs;
@@ -199,11 +205,12 @@ public class GestionProductoBD {
         }
         return id;
     }
-    
+
     /**
      * Método que permite obtener el ImageIcon del producto según su id.
+     *
      * @param idProducto
-     * @return 
+     * @return
      */
     public ImageIcon getFotoProducto(int idProducto) {
         ImageIcon imgProducto = null;
@@ -229,13 +236,14 @@ public class GestionProductoBD {
         }
         return imgProducto;
     }
-    
+
     /**
      * Método para modificar el tamaño de la imagen (clase).
+     *
      * @param f
      * @param newW
      * @param newH
-     * @return 
+     * @return
      */
     public static BufferedImage resizeToBufferedImage(File f, int newW, int newH) {
         BufferedImage bufferedImage = null;
@@ -255,13 +263,15 @@ public class GestionProductoBD {
 
         return bufim;
     }
-    
+
     /**
-     * Método dado en clase para modificar el tamaño del archivo que contiene la imagen.
+     * Método dado en clase para modificar el tamaño del archivo que contiene la
+     * imagen.
+     *
      * @param f
      * @param newW
      * @param newH
-     * @return 
+     * @return
      */
     public InputStream resizeFromFile(File f, int newW, int newH) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -273,7 +283,7 @@ public class GestionProductoBD {
         }
         return new ByteArrayInputStream(baos.toByteArray());
     }
-    
+
     private boolean conectar() {
         boolean resultado = true;
         try {

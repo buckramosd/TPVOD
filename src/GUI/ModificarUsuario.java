@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package GUI;
 
 import BD.GestionUsuarioBD;
 import entidades.Usuario;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Dani Buck
- */
 public class ModificarUsuario extends javax.swing.JDialog {
 
     GestionUsuarioBD conexionUsuario;
@@ -20,9 +12,10 @@ public class ModificarUsuario extends javax.swing.JDialog {
 
     /**
      * Creates new form ModificarUsuario
+     *
      * @param parent
      * @param modal
-     * @param user 
+     * @param user
      */
     public ModificarUsuario(java.awt.Frame parent, boolean modal, Usuario user) {
         super(parent, modal);
@@ -221,12 +214,14 @@ public class ModificarUsuario extends javax.swing.JDialog {
             }
         });
     }
-    
+
     /**
-     * Método para comprobar que el formulario está completo y cumpliendo ciertos requisitos para modificar el usuario en la BD.
-     * - Ningún campo está vacío
-     * - El username, PK de la BD, no puede sufrir cambios
-     * - Si las dos anteriores se cumplen, guarda en un nuevo objeto Usuario usuarioModificado los datos que queremos actualizar del usuario ya existente
+     * Método para comprobar que el formulario está completo y cumpliendo
+     * ciertos requisitos para modificar el usuario en la BD. - Ningún campo
+     * está vacío - El username, PK de la BD, no puede sufrir cambios - Si las
+     * dos anteriores se cumplen, guarda en un nuevo objeto Usuario
+     * usuarioModificado los datos que queremos actualizar del usuario ya
+     * existente
      */
     public void validar() {
         String usName = txtUsernameMod.getText().toLowerCase();
