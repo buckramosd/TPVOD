@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-02-2023 a las 14:03:36
+-- Tiempo de generación: 28-02-2023 a las 20:49:00
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -63,8 +63,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`username`, `password`, `rol`, `nombre`, `apellidos`) VALUES
+('administro', 'administro1', 'admin', 'Adm', 'Inistro'),
+('como', 'como1', 'vendedor', 'Como', 'Cosas'),
 ('jarvan', 'pormipadreelrey', 'admin', 'Jarvan', 'IV'),
 ('usuarioPrueba', 'contraseñaPrueba', 'rolPrueba', 'nombrePrueba', 'apellidosPrueba'),
+('vendo', 'vendo1', 'vendedor', 'Vendo', 'Cosas'),
 ('xin', 'xan', 'vendedor', 'Xin-Zhao', 'Yun');
 
 -- --------------------------------------------------------
@@ -88,7 +91,12 @@ CREATE TABLE `ventas` (
 INSERT INTO `ventas` (`idVenta`, `codVenta`, `cantidad`, `idProducto`, `username`) VALUES
 (1, 101, 2, 1, 'usuarioPrueba'),
 (2, 1, 4, 1, 'jarvan'),
-(3, 1, 2, 2, 'jarvan');
+(3, 1, 2, 2, 'jarvan'),
+(6, 5, 1, 3, 'vendo'),
+(7, 5, 10, 2, 'vendo'),
+(8, 6, 12, 3, 'como'),
+(9, 7, 7, 2, 'xin'),
+(10, 7, 7, 3, 'xin');
 
 --
 -- Índices para tablas volcadas
@@ -128,7 +136,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `idVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
