@@ -49,6 +49,7 @@ public class TPVGUI extends javax.swing.JFrame {
     Double cantidad;
     int codVenta;
     DecimalFormat df;
+    String productoSeleccionado;
 
     /**
      * Creates new form TPVGUI
@@ -77,6 +78,7 @@ public class TPVGUI extends javax.swing.JFrame {
         precioTotal = 0.0;
         cantidad = 0.0;
         df = new DecimalFormat("#.00");
+        productoSeleccionado = "";
         //Si el usuario no es admin bloquea la ventana "Administración"
         if (usuario.getRol().equals("vendedor")) {
             this.jTabbedPane1.setEnabledAt(1, false);
@@ -614,7 +616,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         cantidad = Double.parseDouble(this.btn1.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -623,7 +625,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
         cantidad = Double.parseDouble(this.btn2.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -632,7 +634,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
         cantidad = Double.parseDouble(this.btn3.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -641,7 +643,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
         cantidad = Double.parseDouble(this.btn4.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -650,7 +652,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
         cantidad = Double.parseDouble(this.btn5.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -659,7 +661,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
         cantidad = Double.parseDouble(this.btn6.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -668,7 +670,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
         cantidad = Double.parseDouble(this.btn7.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -677,7 +679,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
         cantidad = Double.parseDouble(this.btn8.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -686,7 +688,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
         cantidad = Double.parseDouble(this.btn9.getText());
         venta.setCantidad(cantidad.intValue());
-        modeloJListVenta.addElement("Cantidad: " + cantidad);
+        modeloJListVenta.addElement(productoSeleccionado + " Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
         txtTotal.setText(String.valueOf(df.format(precioTotal)));
@@ -720,7 +722,7 @@ public class TPVGUI extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     //Por cada producto pulsado se genera una nueva venta
                     venta = new Venta(producto, user);
-                    modeloJListVenta.addElement(producto.getNombre() + ", Precio: " + producto.getPvp());
+                    productoSeleccionado = producto.getNombre() + ", Precio: " + producto.getPvp();
                     //Obtenemos el pvp del producto
                     precioProducto = producto.getPvp();
                 }
