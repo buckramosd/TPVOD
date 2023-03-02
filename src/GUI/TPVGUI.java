@@ -16,6 +16,7 @@ import entidades.Ventas;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -42,11 +43,12 @@ public class TPVGUI extends javax.swing.JFrame {
     //Variables para los precios
     //Deberíam ser tratadas como Doubles y no como Enteros, esto se hace
     //porque de otro modo no se puede asignar al textField del precio
-    int precioProducto;
-    int precioTotalProducto;
-    int precioTotal;
-    int cantidad;
+    Double precioProducto;
+    Double precioTotalProducto;
+    Double precioTotal;
+    Double cantidad;
     int codVenta;
+    DecimalFormat df;
 
     /**
      * Creates new form TPVGUI
@@ -70,6 +72,11 @@ public class TPVGUI extends javax.swing.JFrame {
         cargarUsuarios();
         user = usuario;
         codVenta = 1;
+        precioProducto = 0.0;
+        precioTotalProducto = 0.0;
+        precioTotal = 0.0;
+        cantidad = 0.0;
+        df = new DecimalFormat("#.00");
         //Si el usuario no es admin bloquea la ventana "Administración"
         if (usuario.getRol().equals("vendedor")) {
             this.jTabbedPane1.setEnabledAt(1, false);
@@ -582,9 +589,9 @@ public class TPVGUI extends javax.swing.JFrame {
         //reinicia las variables para los precios
         this.modeloJListVenta.removeAllElements();
         this.txtTotal.setText("");
-        precioTotal = 0;
-        precioProducto = 0;
-        precioTotalProducto = 0;
+        precioTotal = 0.0;
+        precioProducto = 0.0;
+        precioTotalProducto = 0.0;
     }//GEN-LAST:event_btnCActionPerformed
 
     private void btnBorrarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarProdActionPerformed
@@ -605,84 +612,84 @@ public class TPVGUI extends javax.swing.JFrame {
     //Asignan el valor a la variable cantidad y a la propiedad cantidad del producto.
     //Calculan el precio total del producto (precio * Uds) y lo suma al total.
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        cantidad = Integer.parseInt(this.btn1.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn1.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-        cantidad = Integer.parseInt(this.btn2.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn2.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
-        cantidad = Integer.parseInt(this.btn3.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn3.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
-        cantidad = Integer.parseInt(this.btn4.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn4.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn4ActionPerformed
 
     private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
-        cantidad = Integer.parseInt(this.btn5.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn5.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn5ActionPerformed
 
     private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
-        cantidad = Integer.parseInt(this.btn6.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn6.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn6ActionPerformed
 
     private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
-        cantidad = Integer.parseInt(this.btn7.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn7.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn7ActionPerformed
 
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
-        cantidad = Integer.parseInt(this.btn8.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn8.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn8ActionPerformed
 
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
-        cantidad = Integer.parseInt(this.btn9.getText());
-        venta.setCantidad(cantidad);
+        cantidad = Double.parseDouble(this.btn9.getText());
+        venta.setCantidad(cantidad.intValue());
         modeloJListVenta.addElement("Cantidad: " + cantidad);
         precioTotalProducto = precioProducto * cantidad;
         precioTotal += precioTotalProducto;
-        txtTotal.setText(String.valueOf(precioTotal));
+        txtTotal.setText(String.valueOf(df.format(precioTotal)));
     }//GEN-LAST:event_btn9ActionPerformed
 
     //Al terminar la venta se inserta en la BD
@@ -690,7 +697,7 @@ public class TPVGUI extends javax.swing.JFrame {
     private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
         venta.setCodVenta(codVenta);
         codVenta++;
-        venta.setCantidad(cantidad);
+        venta.setCantidad(cantidad.intValue());
         ventas.addVenta(venta);
         for (int i = 0; i < ventas.size(); i++) {
             conexionVentas.insertarVenta(ventas.get(i));
@@ -715,7 +722,7 @@ public class TPVGUI extends javax.swing.JFrame {
                     venta = new Venta(producto, user);
                     modeloJListVenta.addElement(producto.getNombre() + ", Precio: " + producto.getPvp());
                     //Obtenemos el pvp del producto
-                    precioProducto = producto.getPvp().intValue();
+                    precioProducto = producto.getPvp();
                 }
             });
             //Establecemos tamaño y posición de los botones
