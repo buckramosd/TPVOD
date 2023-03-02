@@ -602,7 +602,6 @@ public class TPVGUI extends javax.swing.JFrame {
         } else {
             //Elimina el producto seleccionado de la lista y la cantidad
             int pos = this.listProductosTPV.getSelectedIndex();
-            modeloJListVenta.remove(pos + 1);
             modeloJListVenta.remove(pos);
             //Elimina del total, el precio del producto * cantidad
             //NO FUNCIONA puesto que resta el último valor asignado a la variable
